@@ -1,4 +1,4 @@
-#include"opt_alg.h"
+#include"../libs/opt_alg.h"
 double* expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2)
 {
 	try
