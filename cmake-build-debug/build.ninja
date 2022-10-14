@@ -49,41 +49,41 @@ cmake_ninja_workdir = C$:/Users/szymo/CLionProjects/optimization/cmake-build-deb
 
 build cmake_object_order_depends_target_optimization: phony || CMakeFiles/optimization.dir
 
-build CMakeFiles/optimization.dir/main.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/main.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\main.cpp.obj.d
+build CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/DRIVER_CODE.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\DRIVER_CODE.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
   OBJECT_FILE_DIR = CMakeFiles\optimization.dir
 
-build CMakeFiles/optimization.dir/matrix.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/matrix.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\matrix.cpp.obj.d
+build CMakeFiles/optimization.dir/classes/matrix.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/classes/matrix.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\classes\matrix.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
-  OBJECT_FILE_DIR = CMakeFiles\optimization.dir
+  OBJECT_FILE_DIR = CMakeFiles\optimization.dir\classes
 
-build CMakeFiles/optimization.dir/ode_solver.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/ode_solver.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\ode_solver.cpp.obj.d
+build CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/classes/ode_solver.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\classes\ode_solver.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
-  OBJECT_FILE_DIR = CMakeFiles\optimization.dir
+  OBJECT_FILE_DIR = CMakeFiles\optimization.dir\classes
 
-build CMakeFiles/optimization.dir/opt_alg.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/opt_alg.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\opt_alg.cpp.obj.d
+build CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/classes/opt_alg.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\classes\opt_alg.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
-  OBJECT_FILE_DIR = CMakeFiles\optimization.dir
+  OBJECT_FILE_DIR = CMakeFiles\optimization.dir\classes
 
-build CMakeFiles/optimization.dir/solution.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/solution.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\solution.cpp.obj.d
+build CMakeFiles/optimization.dir/classes/solution.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/classes/solution.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\classes\solution.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
-  OBJECT_FILE_DIR = CMakeFiles\optimization.dir
+  OBJECT_FILE_DIR = CMakeFiles\optimization.dir\classes
 
-build CMakeFiles/optimization.dir/user_funs.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/user_funs.cpp || cmake_object_order_depends_target_optimization
-  DEP_FILE = CMakeFiles\optimization.dir\user_funs.cpp.obj.d
+build CMakeFiles/optimization.dir/classes/user_funs.cpp.obj: CXX_COMPILER__optimization_Debug C$:/Users/szymo/CLionProjects/optimization/classes/user_funs.cpp || cmake_object_order_depends_target_optimization
+  DEP_FILE = CMakeFiles\optimization.dir\classes\user_funs.cpp.obj.d
   FLAGS = -g -std=gnu++14
   OBJECT_DIR = CMakeFiles\optimization.dir
-  OBJECT_FILE_DIR = CMakeFiles\optimization.dir
+  OBJECT_FILE_DIR = CMakeFiles\optimization.dir\classes
 
 
 # =============================================================================
@@ -93,7 +93,7 @@ build CMakeFiles/optimization.dir/user_funs.cpp.obj: CXX_COMPILER__optimization_
 #############################################
 # Link the executable optimization.exe
 
-build optimization.exe: CXX_EXECUTABLE_LINKER__optimization_Debug CMakeFiles/optimization.dir/main.cpp.obj CMakeFiles/optimization.dir/matrix.cpp.obj CMakeFiles/optimization.dir/ode_solver.cpp.obj CMakeFiles/optimization.dir/opt_alg.cpp.obj CMakeFiles/optimization.dir/solution.cpp.obj CMakeFiles/optimization.dir/user_funs.cpp.obj
+build optimization.exe: CXX_EXECUTABLE_LINKER__optimization_Debug CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj CMakeFiles/optimization.dir/classes/matrix.cpp.obj CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj CMakeFiles/optimization.dir/classes/solution.cpp.obj CMakeFiles/optimization.dir/classes/user_funs.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\optimization.dir
