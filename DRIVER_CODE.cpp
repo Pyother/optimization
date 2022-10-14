@@ -8,8 +8,8 @@ Akademia Górniczo-Hutnicza
 *********************************************/
 #include <iostream>
 #include <cmath>
-#include "matrix.h"
-#include"opt_alg.h"
+#include "libs/matrix.h"
+#include"libs/opt_alg.h"
 
 void lab1();
 void lab2();

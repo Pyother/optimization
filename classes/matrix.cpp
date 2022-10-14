@@ -1,6 +1,6 @@
-//Ten plik nie powinien byæ edytowany
+//Ten plik nie powinien byï¿½ edytowany
 
-#include"matrix.h"
+#include"../libs/matrix.h"
 
 matrix::matrix(double L)
 {
