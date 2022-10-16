@@ -90,13 +90,13 @@ double *expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, doub
 
     d = xn - x0;
 
-    try {
-        d = 0;
-        cout << "Access granted - you are old enough.";
-        throw (d);
-    }catch (double myNum) {
-        cout << "d =" << myNum;
-    }
+//    try {
+//        d = 0;
+//        cout << "Access granted - you are old enough.";
+//        throw (d);
+//    }catch (double myNum) {
+//        cout << "d =" << myNum;
+//    }
 
     if (function(m1) == function(m2)) {
         arr[0] = x0;
@@ -106,7 +106,9 @@ double *expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, doub
         d = -d;
         xn = x0 + d;
         if(function(m1) >= function(m2)){
-            cout<<"x_0 = "<<x0<<", x_n - d = "<<xn-d;
+            arr[0] = x0;
+            arr[1] = xn - d;
+            return arr;
         }
     }
     do{
@@ -115,9 +117,9 @@ double *expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, doub
 
     if(d > 0){
         return ;
+    }else {
+        return;
     }
-
-    return ;
 
 }
 // ##########################################
