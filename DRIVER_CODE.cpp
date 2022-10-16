@@ -26,7 +26,7 @@ int main()
     cout << "dzialam1\n";
 	try
 	{
-
+        lab1();
 	}
 	catch (string EX_INFO)
 	{
@@ -40,6 +40,7 @@ int main()
 
 void lab1()
 {
+    expansion(func_lab_1);
 
 }
 
@@ -69,7 +70,7 @@ void lab6()
 }
 
 // ##########################################
-// LAB1 - additional functions
+// LAB1 - mathematical functions
 // ##########################################
 //
 //
@@ -77,55 +78,7 @@ void lab6()
 //
 //
 // ##########################################
-matrix function(matrix x) {
+matrix func_lab_1(matrix x, , ) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * M_1_PI, 2) + 0.002 * pow(0.1 * x(), 2));
-}
-
-double *expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix id1, matrix id2){
-
-    matrix m1 = matrix(0.0);
-    matrix m2 = matrix(4.0);
-    //cout << function(m1);
-    //cout << function(m2);
-
-    auto *arr = new double(2);
-
-    double x0, xn, alpha, d;
-
-    cin >> x0 >> xn >> alpha;
-
-    d = xn - x0;
-
-//    try {
-//        d = 0;
-//        cout << "Access granted - you are old enough.";
-//        throw (d);
-//    }catch (double myNum) {
-//        cout << "d =" << myNum;
-//    }
-
-    if (function(m1) == function(m2)) {
-        arr[0] = x0;
-        arr[1] = xn;
-        return arr;
-    }else if (function(m1) > function(m2)) {
-        d = -d;
-        xn = x0 + d;
-        if(function(m1) >= function(m2)){
-            arr[0] = x0;
-            arr[1] = xn - d;
-            return arr;
-        }
-    }
-    do{
-
-    }while (function(m1) < function(m2));
-
-    if(d > 0){
-        return ;
-    }else {
-        return;
-    }
-
 }
 // ##########################################
