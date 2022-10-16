@@ -4,9 +4,42 @@ double* expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, doub
 	try
 	{
 		double* p = new double[2]{ 0,0 };
-		//Tu wpisz kod funkcji
+  //
+        matrix m1 = matrix(0.0);
+        matrix m2 = matrix(4.0);
+        //cout << function(m1);
+        //cout << function(m2);
 
-		return p;
+        auto *arr = new double(2);
+
+        cin >> x0 >> xn >> alpha;
+
+        d = xn - x0;
+        if (ff(m1) == ff(m2)) {
+            p[0] = x0;
+            p[1] = xn;
+            return p;
+        }else if (ff(m1) > ff(m2)) {
+            d = -d;
+            xn = x0 + d;
+            if(ff(m1) >= ff(m2)){
+                p[0] = x0;
+                p[1] = xn - d;
+                return p;
+            }
+        }
+        do{
+
+        }while (ff(m1) < ff(m2));
+
+        if(d > 0){
+            return ;
+        }else {
+            return;
+        }
+
+//
+        return p;
 	}
 	catch (string ex_info)
 	{
