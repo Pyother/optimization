@@ -12,60 +12,56 @@ Akademia Górniczo-Hutnicza
 
 #include "libs/matrix.h"
 #include"libs/opt_alg.h"
-
+matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
 void lab1();
+
 void lab2();
+
 void lab3();
+
 void lab4();
+
 void lab5();
+
 void lab6();
 
-int main()
-{
+int main() {
     cout << "dzialam1\n";
-	try
-	{
+    try {
         lab1();
-	}
-	catch (string EX_INFO)
-	{
-		cerr << "ERROR:\n";
-		cerr << EX_INFO << endl << endl;
-	}
+    }
+    catch (string EX_INFO) {
+        cerr << "ERROR:\n";
+        cerr << EX_INFO << endl << endl;
+    }
     cout << "dzialam2\n";
-	system("pause");
-	return 0;
+    system("pause");
+    return 0;
 }
 
-void lab1()
-{
-    expansion(func_lab_1);
-
-}
-
-void lab2()
-{
+void lab1() {
+   cout<< *expansion(func_lab_1,0.0,1.0,2.0,50)<<std::endl;
 
 }
 
-void lab3()
-{
+void lab2() {
 
 }
 
-void lab4()
-{
+void lab3() {
 
 }
 
-void lab5()
-{
+void lab4() {
 
 }
 
-void lab6()
-{
+void lab5() {
+
+}
+
+void lab6() {
 
 }
 
@@ -78,7 +74,7 @@ void lab6()
 //
 //
 // ##########################################
-matrix func_lab_1(matrix x, , ) {
+matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * M_1_PI, 2) + 0.002 * pow(0.1 * x(), 2));
 }
 // ##########################################
