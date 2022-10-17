@@ -44,19 +44,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "E:\Program files\JetBrains\CLion 2022.2.3\bin\cmake\win\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\JetBrains\CLion 2022.2.3\bin\cmake\win\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "E:\Program files\JetBrains\CLion 2022.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\JetBrains\CLion 2022.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\pawel\CLionProjects\optimization
+CMAKE_SOURCE_DIR = C:\Users\szymo\CLionProjects\optimization
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\pawel\CLionProjects\optimization\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\szymo\CLionProjects\optimization\cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -80,14 +80,14 @@ clean: CMakeFiles/optimization.dir/clean
 CMakeFiles/optimization.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\optimization.dir\build.make CMakeFiles/optimization.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\optimization.dir\build.make CMakeFiles/optimization.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\pawel\CLionProjects\optimization\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target optimization"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\szymo\CLionProjects\optimization\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target optimization"
 .PHONY : CMakeFiles/optimization.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/optimization.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\pawel\CLionProjects\optimization\cmake-build-debug\CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\szymo\CLionProjects\optimization\cmake-build-debug\CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/optimization.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\pawel\CLionProjects\optimization\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\szymo\CLionProjects\optimization\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/optimization.dir/rule
 
 # Convenience name for target.

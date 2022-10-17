@@ -28,17 +28,24 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
                 return p;
             }
         }
+        int i = 0;
         do {
-
+            if(ff > Nmax){
+                throw std::runtime_error("ERROR OCCURED!");
+            }
+            i++;
         } while (ff(m1, m1, m1) < ff(m2, m2, m2));
 
         if (d > 0) {
+            p[0] = ;
+            p[1] = ;
             return p;
         } else {
+            p[0] = ;
+            p[1] = ;
             return p;
         }
 
-//
         return p;
     }
     catch (string ex_info) {

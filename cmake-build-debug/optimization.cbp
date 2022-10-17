@@ -8,114 +8,114 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug"/>
+				<Option working_dir="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="optimization">
-				<Option output="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/optimization.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug"/>
+				<Option output="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/optimization.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 optimization"/>
-					<CompileFile command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 optimization"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="optimization/fast">
-				<Option output="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/optimization.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug"/>
+				<Option output="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/optimization.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
-					<Add directory="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.3/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 optimization/fast"/>
-					<CompileFile command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 optimization/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug"/>
+				<Option working_dir="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Users/pawel/CLionProjects/optimization/cmake-build-debug"/>
+				<Option working_dir="C:/Users/szymo/CLionProjects/optimization/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="E:/Program files/JetBrains/CLion 2022.2.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.3/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/DRIVER_CODE.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/DRIVER_CODE.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/classes/matrix.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/classes/matrix.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/classes/ode_solver.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/classes/ode_solver.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/classes/opt_alg.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/classes/opt_alg.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/classes/solution.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/classes/solution.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/classes/user_funs.cpp">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/classes/user_funs.cpp">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/libs/matrix.h">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/libs/matrix.h">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/libs/ode_solver.h">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/libs/ode_solver.h">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/libs/opt_alg.h">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/libs/opt_alg.h">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/libs/solution.h">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/libs/solution.h">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/libs/user_funs.h">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/libs/user_funs.h">
 			<Option target="optimization"/>
 		</Unit>
-		<Unit filename="C:/Users/pawel/CLionProjects/optimization/CMakeLists.txt">
+		<Unit filename="C:/Users/szymo/CLionProjects/optimization/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
