@@ -41,7 +41,8 @@ int main() {
 }
 
 void lab1() {
-   cout<< *expansion(func_lab_1,0.0,1.0,2.0,50)<<std::endl;
+
+   cout<< *expansion(func_lab_1,0.0,1.0,3.0,50)<<std::endl;
 
 }
 

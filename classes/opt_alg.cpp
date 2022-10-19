@@ -4,49 +4,42 @@ double *
 expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
     try {
         double *p = new double[2]{0, 0};
-        //
-        matrix m1 = matrix(0.0);
-        matrix m2 = matrix(4.0);
-        //cout << function(m1);
-        //cout << function(m2);
 
-        auto *arr = new double(2);
+        double x1 = x0 + d;
 
-        double xn=10.0;
-
-        d = xn - x0;
-        if (ff(m1, m1, m1) == ff(m2, m2, m2)) {
+        if (ff(x1, x1, x1) == ff(x0, x0, x0)) {
             p[0] = x0;
-            p[1] = xn;
+            p[1] = x1;
             return p;
-        } else if (ff(m1, m1, m1) > ff(m2, m2, m2)) {
+        } else if (ff(x1, x1, x1) > ff(x0, x0, x0)) {
             d = -d;
-            xn = x0 + d;
-            if (ff(m1, m1, m1) >= ff(m2, m2, m2)) {
-                p[0] = x0;
-                p[1] = xn - d;
+
+            if (ff(x1, x1, x1) >= ff(x0, x0, x0)) {
+                p[0] = x1;
+                p[1] = x0 - d;
                 return p;
             }
         }
         int i = 0;
+        vector<double> xx={};
         do {
-            if(ff > Nmax){
+            if (solution::f_calls > Nmax) {
+                std::cout << "Limit of function call reached";
                 throw std::runtime_error("ERROR OCCURED!");
             }
             i++;
-        } while (ff(m1, m1, m1) < ff(m2, m2, m2));
+            xx.push_back(x0+pow(alpha,i)*d)
+        } while (ff(x1, x1, x1) < ff(x0, x0, x0));
 
         if (d > 0) {
-            p[0] = ;
-            p[1] = ;
+            p[0] =xx.at(i-1);
+            p[1] =xx.at(i+1);
             return p;
         } else {
-            p[0] = ;
-            p[1] = ;
+            p[0] =xx.at(i+1);
+            p[1] =xx.at(i-1);
             return p;
         }
-
-        return p;
     }
     catch (string ex_info) {
         throw ("double* expansion(...):\n" + ex_info);
