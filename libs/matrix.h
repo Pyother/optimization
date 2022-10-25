@@ -1,4 +1,4 @@
-//Ten plik nie powinien byæ edytowany
+//Ten plik nie powinien byï¿½ edytowany
 
 #pragma once
 
@@ -8,6 +8,8 @@
 #include<fstream>
 #include<random>
 #include<chrono>
+#include "solution.h"
+
 using namespace std;
 
 #define SEP_SYMBOL ','
@@ -45,7 +47,7 @@ matrix operator-(const matrix&);
 bool operator<(const matrix&, const matrix&); // throw (string);
 bool operator>(const matrix&, const matrix&); // throw (string);
 bool operator<=(const matrix&, const matrix&); // throw (string);
-bool operator>=(const matrix&, const matrix&); // throw (string);
+solution operator>=(const matrix&, const matrix&); // throw (string);
 bool operator==(const matrix&, const matrix&); // throw (string);
 bool operator!=(const matrix&, const matrix&); // throw (string);
 matrix ident_mat(int = 1); // throw (string);

@@ -3,41 +3,66 @@
 double *
 expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
     try {
-        double *p = new double[2]{0, 0};
-
+        auto *p = new double[2]{0, 0};
         double x1 = x0 + d;
+        solution X0(x0), X1(x0 + d);
+        X0.fit_fun(ff, ud1, ud2);
+        X1.fit_fun(ff, ud1, ud2);
 
-        if (ff(x1, x1, x1) == ff(x0, x0, x0)) {
-            p[0] = x0;
-            p[1] = x1;
+        if (X0.y == X1.y) {
+            p[0] = m2d(X0.x);
+            p[1] = m2d(X1.x);
             return p;
-        } else if (ff(x1, x1, x1) > ff(x0, x0, x0)) {
-            d = -d;
 
-            if (ff(x1, x1, x1) >= ff(x0, x0, x0)) {
-                p[0] = x1;
-                p[1] = x0 - d;
+        }
+        if (X0.y < X1.y) {
+            d = -d;
+            X1.x = X0.x + d;
+            X1.fit_fun(ff, ud1, ud2);
+            if (X1.y >= X0.y) {
+                p[0] = X1.x();
+                p[1] = X0.x() - d;
                 return p;
             }
         }
-        int i = 0;
-        vector<double> xx={};
-        do {
-            if (solution::f_calls > Nmax) {
+        int i = 0; // int i = 1; ????????
+        solution X2;
+        while(true){
+            if (X2.y >= X1.y || solution::f_calls > Nmax) {
                 std::cout << "Limit of function call reached";
                 throw std::runtime_error("ERROR OCCURED!");
+                break;
             }
             i++;
-            xx.push_back(x0+pow(alpha,i)*d)
-        } while (ff(x1, x1, x1) < ff(x0, x0, x0));
+            X2.x = x0 + pow(alpha,i) * d;
+        }
+        /*
+         * solution X2;
+int i = 1;
+while (true)
+{
+X2.x = x0 + pow(alpha,i) * d;
+X2.fit_fun(ud, ad);
+if (X2.y >= X1.y || solution::f_calls > Nmax)
+break;
+X0 = X1;
+X1 = X2;
+++i;
+}
+d >
+         * */
+        // unrechable code xD???
+        d > 0 ? p[0] = X0.x(), p[1] = X2.x() : (p[0] = X2.x(), p[1] = X0.x());
+        return p;
+
 
         if (d > 0) {
-            p[0] =xx.at(i-1);
-            p[1] =xx.at(i+1);
+            p[0] = m2d(X0.x);
+            p[1] = m2d(X2.x);
             return p;
         } else {
-            p[0] =xx.at(i+1);
-            p[1] =xx.at(i-1);
+            p[0] = m2d(X2.x);
+            p[1] = m2d(X0.x);
             return p;
         }
     }
