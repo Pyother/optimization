@@ -74,8 +74,33 @@ d >
 solution fib(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
-        //Tu wpisz kod funkcji
-
+        Xopt.ud = b - a;
+        int n = static_cast<int>(ceil(log2(sqrt(5) * (b - a) / epsilon) / log2((1 + sqrt(5)) / 2)));
+        int* F = new int[n] {1, 1};
+        for (int i = 2; i < n; ++i)
+            F[i] = F[i - 2] + F[i - 1];
+        solution A(a), B(b), C, D;
+        C.x = B.x - 1.0 * F[n - 2] / F[n - 1] * (B.x - A.x);
+        D.x = A.x + B.x - C.x;
+        C.fit_fun(ff, ud1, ud2);
+        D.fit_fun(ff, ud1, ud2);
+        for (int i = 0; i <= n - 3; ++i)
+        {
+            //nwm?
+//            if (C.y < D.y)
+//                B = D;
+//            else
+//                A = C;
+//            C.x = B.x - 1.0 * F[n -i - 2] / F[n -i - 1] * (B.x - A.x);
+//            D.x = A.x + B.x - C.x;
+//            C.fit_fun(ff, ud1, ud2);
+//            D.fit_fun(ff, ud1, ud2);
+//#if LAB_NO==2 && LAB_PART==2
+//            ud->add_row((B.x - A.x)());
+//#endif
+        }
+        Xopt = C;
+        Xopt.flag = 0;
         return Xopt;
     }
     catch (string ex_info) {
@@ -100,15 +125,64 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
 
 solution
 HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
-   matrix ud2) {
-    try {
+   matrix ud2)
+{
+    try //kox dała kod który nie pasuje do definicji
+    {
         solution Xopt;
-        //Tu wpisz kod funkcji
-
+        Xopt.ud = b - a;
+        solution A(a), B(b), C, D, D_old(a);
+        C.x = (a + b) / 2;
+        A.fit_fun(ff, ud1, ud2);
+        B.fit_fun(ff, ud1, ud2);
+        C.fit_fun(ff, ud1, ud2);
+        double l, m;
+        while (true)
+        {
+            l = m2d(A.y * (pow(B.x) - pow(C.x)) + B.y * (pow(C.x) - pow(A.x)) + C.y * (pow(A.x) - pow(B.x)));
+            m = m2d(A.y * (B.x - C.x) + B.y * (C.x - A.x) + C.y * (A.x - B.x));
+            if (m <= 0)
+            {
+                Xopt = D_old;
+                Xopt.flag = 2;
+                return Xopt;
+            }
+            D.x = 0.5 * l / m;
+            D.fit_fun(ff, ud1, ud2);
+            if (A.x <= D.x && D.x <= C.x)
+            {
+                ???
+            }
+            else if (C.x <= D.x && D.x <= B.x)
+            {
+                ???
+            }
+            else
+            {
+                Xopt = D_old;
+                Xopt.flag = 2;
+                return Xopt;
+            }
+            Xopt.ud.add_row((B.x - A.x)());
+            if (B.x - A.x < epsilon || abs(D.x() - D_old.x()) < gamma)
+            {
+                Xopt = D;
+                Xopt.flag = 0;
+                break;
+            }
+            if (solution::f_calls > Nmax)
+            {
+                Xopt = D;
+                Xopt.flag = 1;
+                break;
+            }
+            D_old = D;
+        }
         return Xopt;
     }
-    catch (string ex_info) {
-        throw ("solution HJ(...):\n" + ex_info);
+    catch (string ex_info)
+    {
+        throw ("solution lag(...):\n" + ex_info);
     }
 }
 
