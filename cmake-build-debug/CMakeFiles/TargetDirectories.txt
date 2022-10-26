@@ -1,3 +1,3 @@
-C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/CMakeFiles/optimization.dir
-C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/szymo/CLionProjects/optimization/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/CMakeFiles/optimization.dir
+C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/pawel/CLionProjects/optimization/cmake-build-debug/CMakeFiles/rebuild_cache.dir

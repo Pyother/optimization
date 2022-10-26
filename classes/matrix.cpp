@@ -1,7 +1,6 @@
 //Ten plik nie powinien by� edytowany
 
 #include"../libs/matrix.h"
-#include "../libs/solution.h"
 
 matrix::matrix(double L)
 {
@@ -327,7 +326,7 @@ bool operator<=(const matrix& A, const matrix& B)
 	return A() <= B();
 }
 
-solution operator>=(const matrix& A, const matrix& B)
+bool operator>=(const matrix& A, const matrix& B)
 {
 	int* nA = get_size(A);
 	int* nB = get_size(B);

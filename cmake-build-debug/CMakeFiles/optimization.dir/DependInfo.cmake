@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/szymo/CLionProjects/optimization/DRIVER_CODE.cpp" "CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj" "gcc" "CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj.d"
-  "C:/Users/szymo/CLionProjects/optimization/classes/matrix.cpp" "CMakeFiles/optimization.dir/classes/matrix.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/matrix.cpp.obj.d"
-  "C:/Users/szymo/CLionProjects/optimization/classes/ode_solver.cpp" "CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj.d"
-  "C:/Users/szymo/CLionProjects/optimization/classes/opt_alg.cpp" "CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj.d"
-  "C:/Users/szymo/CLionProjects/optimization/classes/solution.cpp" "CMakeFiles/optimization.dir/classes/solution.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/solution.cpp.obj.d"
-  "C:/Users/szymo/CLionProjects/optimization/classes/user_funs.cpp" "CMakeFiles/optimization.dir/classes/user_funs.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/user_funs.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/DRIVER_CODE.cpp" "CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj" "gcc" "CMakeFiles/optimization.dir/DRIVER_CODE.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/classes/matrix.cpp" "CMakeFiles/optimization.dir/classes/matrix.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/matrix.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/classes/ode_solver.cpp" "CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/ode_solver.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/classes/opt_alg.cpp" "CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/opt_alg.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/classes/solution.cpp" "CMakeFiles/optimization.dir/classes/solution.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/solution.cpp.obj.d"
+  "C:/Users/pawel/CLionProjects/optimization/classes/user_funs.cpp" "CMakeFiles/optimization.dir/classes/user_funs.cpp.obj" "gcc" "CMakeFiles/optimization.dir/classes/user_funs.cpp.obj.d"
   )
 
 # Targets to which this target links.

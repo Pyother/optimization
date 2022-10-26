@@ -4,7 +4,6 @@ double *
 expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
     try {
         auto *p = new double[2]{0, 0};
-        double x1 = x0 + d;
         solution X0(x0), X1(x0 + d);
         X0.fit_fun(ff, ud1, ud2);
         X1.fit_fun(ff, ud1, ud2);
@@ -12,6 +11,7 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
         if (X0.y == X1.y) {
             p[0] = m2d(X0.x);
             p[1] = m2d(X1.x);
+            cout << "if 1\n";
             return p;
 
         }
@@ -19,52 +19,34 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
             d = -d;
             X1.x = X0.x + d;
             X1.fit_fun(ff, ud1, ud2);
+            cout << "if 2\n";
             if (X1.y >= X0.y) {
                 p[0] = X1.x();
                 p[1] = X0.x() - d;
                 return p;
             }
         }
-        int i = 0; // int i = 1; ????????
-        solution X2;
-        while(true){
-            if (X2.y >= X1.y || solution::f_calls > Nmax) {
+        int i = 0;
+        solution X2, X3;
+        cout << "d: " << d << endl;
+
+        do {
+            cout << "while: " << solution::f_calls << endl;
+            if (solution::f_calls > Nmax) {
                 std::cout << "Limit of function call reached";
                 throw std::runtime_error("ERROR OCCURED!");
-                break;
             }
+            X2 = solution(x0 + pow(alpha, i) * d);
+            X3 = solution(x0 + pow(alpha, i + 1) * d);
+            printf("(%f,%f)\n", X2.x(), X3.x());
             i++;
-            X2.x = x0 + pow(alpha,i) * d;
-        }
-        /*
-         * solution X2;
-int i = 1;
-while (true)
-{
-X2.x = x0 + pow(alpha,i) * d;
-X2.fit_fun(ud, ad);
-if (X2.y >= X1.y || solution::f_calls > Nmax)
-break;
-X0 = X1;
-X1 = X2;
-++i;
-}
-d >
-         * */
-        // unrechable code xD???
-        d > 0 ? p[0] = X0.x(), p[1] = X2.x() : (p[0] = X2.x(), p[1] = X0.x());
+        } while (X2.fit_fun(ff, ud1, ud2) >= X3.fit_fun(ff, ud1, ud2));
+
+        X0 = solution(x0 + pow(alpha, i - 1) * d);
+        X1 = solution(x0 + pow(alpha, i + 1) * d);
+
+        d > 0 ? p[0] = X0.x(), p[1] = X1.x() : (p[0] = X1.x(), p[1] = X0.x());
         return p;
-
-
-        if (d > 0) {
-            p[0] = m2d(X0.x);
-            p[1] = m2d(X2.x);
-            return p;
-        } else {
-            p[0] = m2d(X2.x);
-            p[1] = m2d(X0.x);
-            return p;
-        }
     }
     catch (string ex_info) {
         throw ("double* expansion(...):\n" + ex_info);
@@ -76,7 +58,7 @@ solution fib(matrix(*ff)(matrix, matrix, matrix), double a, double b, double eps
         solution Xopt;
         Xopt.ud = b - a;
         int n = static_cast<int>(ceil(log2(sqrt(5) * (b - a) / epsilon) / log2((1 + sqrt(5)) / 2)));
-        int* F = new int[n] {1, 1};
+        int *F = new int[n]{1, 1};
         for (int i = 2; i < n; ++i)
             F[i] = F[i - 2] + F[i - 1];
         solution A(a), B(b), C, D;
@@ -84,20 +66,21 @@ solution fib(matrix(*ff)(matrix, matrix, matrix), double a, double b, double eps
         D.x = A.x + B.x - C.x;
         C.fit_fun(ff, ud1, ud2);
         D.fit_fun(ff, ud1, ud2);
-        for (int i = 0; i <= n - 3; ++i)
-        {
-            //nwm?
-//            if (C.y < D.y)
-//                B = D;
-//            else
-//                A = C;
-//            C.x = B.x - 1.0 * F[n -i - 2] / F[n -i - 1] * (B.x - A.x);
-//            D.x = A.x + B.x - C.x;
-//            C.fit_fun(ff, ud1, ud2);
-//            D.fit_fun(ff, ud1, ud2);
-//#if LAB_NO==2 && LAB_PART==2
-//            ud->add_row((B.x - A.x)());
-//#endif
+
+
+        for (int i = 0; i <= n - 3; ++i) {
+            if (C.y < D.y) {
+                A.x = A.x;
+                B.x = D.x;
+            } else {
+                B.x = B.x;
+                A.x = C.x;
+            }
+            C.x = B.x - 1.0 * F[n - i - 2] / F[n - i - 1] * (B.x - A.x);
+            D.x = A.x + B.x - C.x;
+
+            C.fit_fun(ff, ud1, ud2);
+            D.fit_fun(ff, ud1, ud2);
         }
         Xopt = C;
         Xopt.flag = 0;
@@ -114,22 +97,7 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
     matrix ud2) {
     try {
         solution Xopt;
-        //Tu wpisz kod funkcji
 
-        return Xopt;
-    }
-    catch (string ex_info) {
-        throw ("solution lag(...):\n" + ex_info);
-    }
-}
-
-solution
-HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
-   matrix ud2)
-{
-    try //kox dała kod który nie pasuje do definicji
-    {
-        solution Xopt;
         Xopt.ud = b - a;
         solution A(a), B(b), C, D, D_old(a);
         C.x = (a + b) / 2;
@@ -137,41 +105,54 @@ HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, doubl
         B.fit_fun(ff, ud1, ud2);
         C.fit_fun(ff, ud1, ud2);
         double l, m;
-        while (true)
-        {
+        while (true) {
             l = m2d(A.y * (pow(B.x) - pow(C.x)) + B.y * (pow(C.x) - pow(A.x)) + C.y * (pow(A.x) - pow(B.x)));
             m = m2d(A.y * (B.x - C.x) + B.y * (C.x - A.x) + C.y * (A.x - B.x));
-            if (m <= 0)
-            {
+            if (m <= 0) {
                 Xopt = D_old;
                 Xopt.flag = 2;
                 return Xopt;
             }
             D.x = 0.5 * l / m;
+
             D.fit_fun(ff, ud1, ud2);
-            if (A.x <= D.x && D.x <= C.x)
-            {
-                ???
-            }
-            else if (C.x <= D.x && D.x <= B.x)
-            {
-                ???
-            }
-            else
-            {
+            if (A.x <= D.x && D.x <= C.x) {
+                if (D.y < C.y) {
+                    A.x = A.x;
+                    C.x = D.x;
+                    B.x = C.x;
+                } else {
+                    A.x = D.x;
+                    C.x = C.x;
+                    B.x = B.x;
+                }
+
+            } else if (C.x <= D.x && D.x <= B.x) {
+                if (D.y < C.y) {
+                    A.x = C.x;
+                    C.x = D.x;
+                    B.x = B.x;
+                } else {
+                    A.x = A.x;
+                    C.x = C.x;
+                    B.x = D.x;
+                }
+            } else {
                 Xopt = D_old;
                 Xopt.flag = 2;
                 return Xopt;
             }
+            A.fit_fun(ff, ud1, ud2);
+            B.fit_fun(ff, ud1, ud2);
+            C.fit_fun(ff, ud1, ud2);
+
             Xopt.ud.add_row((B.x - A.x)());
-            if (B.x - A.x < epsilon || abs(D.x() - D_old.x()) < gamma)
-            {
+            if (B.x - A.x < epsilon || abs(D.x() - D_old.x()) < gamma) {
                 Xopt = D;
                 Xopt.flag = 0;
                 break;
             }
-            if (solution::f_calls > Nmax)
-            {
+            if (solution::f_calls > Nmax) {
                 Xopt = D;
                 Xopt.flag = 1;
                 break;
@@ -180,11 +161,73 @@ HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, doubl
         }
         return Xopt;
     }
-    catch (string ex_info)
-    {
+    catch (string ex_info) {
         throw ("solution lag(...):\n" + ex_info);
     }
 }
+
+//solution
+//HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
+//   matrix ud2)
+//{
+//    try //kox dała kod który nie pasuje do definicji
+//    {
+//        solution Xopt;
+//        Xopt.ud = b - a;
+//        solution A(a), B(b), C, D, D_old(a);
+//        C.x = (a + b) / 2;
+//        A.fit_fun(ff, ud1, ud2);
+//        B.fit_fun(ff, ud1, ud2);
+//        C.fit_fun(ff, ud1, ud2);
+//        double l, m;
+//        while (true)
+//        {
+//            l = m2d(A.y * (pow(B.x) - pow(C.x)) + B.y * (pow(C.x) - pow(A.x)) + C.y * (pow(A.x) - pow(B.x)));
+//            m = m2d(A.y * (B.x - C.x) + B.y * (C.x - A.x) + C.y * (A.x - B.x));
+//            if (m <= 0)
+//            {
+//                Xopt = D_old;
+//                Xopt.flag = 2;
+//                return Xopt;
+//            }
+//            D.x = 0.5 * l / m;
+//            D.fit_fun(ff, ud1, ud2);
+//            if (A.x <= D.x && D.x <= C.x)
+//            {
+//                ???
+//            }
+//            else if (C.x <= D.x && D.x <= B.x)
+//            {
+//                ???
+//            }
+//            else
+//            {
+//                Xopt = D_old;
+//                Xopt.flag = 2;
+//                return Xopt;
+//            }
+//            Xopt.ud.add_row((B.x - A.x)());
+//            if (B.x - A.x < epsilon || abs(D.x() - D_old.x()) < gamma)
+//            {
+//                Xopt = D;
+//                Xopt.flag = 0;
+//                break;
+//            }
+//            if (solution::f_calls > Nmax)
+//            {
+//                Xopt = D;
+//                Xopt.flag = 1;
+//                break;
+//            }
+//            D_old = D;
+//        }
+//        return Xopt;
+//    }
+//    catch (string ex_info)
+//    {
+//        throw ("solution lag(...):\n" + ex_info);
+//    }
+//}
 
 solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2) {
     try {

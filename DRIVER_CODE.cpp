@@ -27,7 +27,6 @@ void lab5();
 void lab6();
 
 int main() {
-    cout << "dzialam1\n";
     try {
         lab1();
     }
@@ -35,15 +34,21 @@ int main() {
         cerr << "ERROR:\n";
         cerr << EX_INFO << endl << endl;
     }
-    cout << "dzialam2\n";
-    system("pause");
     return 0;
 }
 
 void lab1() {
-
-   cout<< *expansion(func_lab_1,0.0,1.0,3.0,50)<<std::endl;
-
+    double* interval=new double[2];
+    solution fibSol,lagSol;
+    //ekspansja- dobre wyniki inne przedzia³y
+//    interval= expansion(func_lab_1,-100.0,1.0,2,1000);
+//    printf("[%f,%f]",interval[0],interval[1]);
+    //fibonacci- ok
+//    fibSol= fib(func_lab_1,10,100,0.00001);
+//    cout<<"("<<fibSol.x<<","<<fibSol.y<<")"<<endl;
+    //Lagrange- ok ale wiêcej wywo³añ funkcji (niepotrzebne wywo³ania?)
+//    lagSol=lag(func_lab_1,-10,1,0.0001,0.0000001,1000);
+//    cout<<"("<<lagSol.x<<","<<lagSol.y<<") "<<"calls: "<<lagSol.f_calls<<" flag: "<<lagSol.flag<<endl;
 }
 
 void lab2() {
@@ -76,6 +81,7 @@ void lab6() {
 //
 // ##########################################
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
-    return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * M_1_PI, 2) + 0.002 * pow(0.1 * x(), 2));
+    return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
+
 }
 // ##########################################
