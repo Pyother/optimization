@@ -1,3 +1,0 @@
-"E:\Program files\JetBrains\CLion 2022.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\optimization.dir/objects.a
-"E:\Program files\JetBrains\CLion 2022.2.3\bin\mingw\bin\ar.exe" qc CMakeFiles\optimization.dir/objects.a @CMakeFiles\optimization.dir\objects1.rsp
-"E:\Program files\JetBrains\CLion 2022.2.3\bin\mingw\bin\g++.exe" -g -Wl,--whole-archive CMakeFiles\optimization.dir/objects.a -Wl,--no-whole-archive -o optimization.exe -Wl,--out-implib,liboptimization.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\optimization.dir\linklibs.rsp
