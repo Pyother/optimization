@@ -40,12 +40,15 @@ int main() {
 void lab1() {
     double* interval=new double[2];
     solution fibSol,lagSol;
+
     //ekspansja- dobre wyniki inne przedzia³y
-//    interval= expansion(func_lab_1,-100.0,1.0,2,1000);
-//    printf("[%f,%f]",interval[0],interval[1]);
+    interval= expansion(func_lab_1,10,1.0,1.5,1000);
+    printf("[%f,%f]",interval[0],interval[1]);
+
     //fibonacci- ok
 //    fibSol= fib(func_lab_1,10,100,0.00001);
 //    cout<<"("<<fibSol.x<<","<<fibSol.y<<")"<<endl;
+
     //Lagrange- ok ale wiêcej wywo³añ funkcji (niepotrzebne wywo³ania?)
 //    lagSol=lag(func_lab_1,-10,1,0.0001,0.0000001,1000);
 //    cout<<"("<<lagSol.x<<","<<lagSol.y<<") "<<"calls: "<<lagSol.f_calls<<" flag: "<<lagSol.flag<<endl;

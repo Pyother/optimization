@@ -27,24 +27,30 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
             }
         }
         int i = 0;
-        solution X2, X3;
+        solution X2(X1.x), X3;
         cout << "d: " << d << endl;
 
         do {
-            cout << "while: " << solution::f_calls << endl;
+            cout << "loop: " << (solution::f_calls-1)/2 << endl;
             if (solution::f_calls > Nmax) {
                 std::cout << "Limit of function call reached";
                 throw std::runtime_error("ERROR OCCURED!");
             }
-            X2 = solution(x0 + pow(alpha, i) * d);
-            X3 = solution(x0 + pow(alpha, i + 1) * d);
-            printf("(%f,%f)\n", X2.x(), X3.x());
             i++;
-        } while (X2.fit_fun(ff, ud1, ud2) >= X3.fit_fun(ff, ud1, ud2));
+            X1 = X2;
+            X2 = solution(x0 + pow(alpha, i + 1) * d);
+            X1.fit_fun(ff, ud1, ud2);
+            X2.fit_fun(ff, ud1, ud2);
+            printf("(%f,%f)\n", X1.x(), X2.x());
+            printf("(%f,%f)\n",m2d(X1.y),m2d(X2.y));
 
-        X0 = solution(x0 + pow(alpha, i - 1) * d);
-        X1 = solution(x0 + pow(alpha, i + 1) * d);
+        } while (X1.y >= X2.y);
 
+        X0 = solution(x0 + pow(alpha, i - 1) * d);;
+        X1 = X2;
+        X0.fit_fun(ff, ud1, ud2);
+        X1.fit_fun(ff, ud1, ud2);
+        printf("[%f,%f]\n\n\n\n",m2d(X0.y),m2d(X1.y));
         d > 0 ? p[0] = X0.x(), p[1] = X1.x() : (p[0] = X1.x(), p[1] = X0.x());
         return p;
     }
@@ -170,7 +176,7 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
 //HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
 //   matrix ud2)
 //{
-//    try //kox dała kod który nie pasuje do definicji
+//    try
 //    {
 //        solution Xopt;
 //        Xopt.ud = b - a;
