@@ -125,8 +125,8 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
             if (A.x <= D.x && D.x <= C.x) {
                 if (D.y < C.y) {
                     A.x = A.x;
-                    C.x = D.x;
                     B.x = C.x;
+                    C.x = D.x;
                 } else {
                     A.x = D.x;
                     C.x = C.x;

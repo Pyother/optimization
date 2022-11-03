@@ -12,6 +12,8 @@ Akademia Górniczo-Hutnicza
 
 #include "libs/matrix.h"
 #include"libs/opt_alg.h"
+#include"libs/user_funs.h"
+
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
 void lab1();
@@ -38,12 +40,16 @@ int main() {
 }
 
 void lab1() {
-    double* interval=new double[2];
-    solution fibSol,lagSol;
-
+    double * interval;
+    solution fibSol, lagSol;
+    double *Y = new double[3];
+    Y[0] = 1;
+    Y[1] = 1;
+    Y[2] = 1;
+    matrix ud2;
     //ekspansja- dobre wyniki inne przedzia³y
-    interval= expansion(func_lab_1,10,1.0,1.5,1000);
-    printf("[%f,%f]",interval[0],interval[1]);
+    interval = expansion(fun, 0, 1, 1.5, 1000,matrix(3,Y) ,ud2);
+    //printf("[%f,%f]",interval[0],interval[1]);
 
     //fibonacci- ok
 //    fibSol= fib(func_lab_1,10,100,0.00001);
