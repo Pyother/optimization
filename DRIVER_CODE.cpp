@@ -9,10 +9,17 @@ Akademia Górniczo-Hutnicza
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <random>
+#include <cstdlib>
+#include <fstream>
 
 #include "libs/matrix.h"
-#include"libs/opt_alg.h"
-#include"libs/user_funs.h"
+#include "libs/opt_alg.h"
+#include "libs/user_funs.h"
+#include "libs/solution.h"
+
+using namespace std;
+
 
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
@@ -40,15 +47,30 @@ int main() {
 }
 
 void lab1() {
-    double * interval;
+    double* interval;
     solution fibSol, lagSol;
-    double *Y = new double[3];
+    double* Y = new double[3];
     Y[0] = 1;
     Y[1] = 1;
     Y[2] = 1;
     matrix ud2;
     //ekspansja- dobre wyniki inne przedzia³y
-    interval = expansion(fun, 0, 1, 1.5, 1000,matrix(3,Y) ,ud2);
+    int x0 = 100, d = 1, alpha = 2, Nmax = 1000;
+    //x0 = 100;
+    //alpha = 2;
+    ofstream myFile(R"(out.csv)");
+    for (int i = 0; i < 100; i++) {
+        x0 = rand() % 200 + 1;
+        interval = expansion(func_lab_1, x0, d, alpha, Nmax, matrix(3, Y), ud2);
+        cout << "\nx0 = " << x0 << endl;
+        cout << "a = " << interval[0] << endl;
+        cout << "b = " << interval[1] << endl;
+        cout << "f_calls = " << solution::f_calls;
+
+        myFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    myFile.close();
     //printf("[%f,%f]",interval[0],interval[1]);
 
     //fibonacci- ok
@@ -91,6 +113,5 @@ void lab6() {
 // ##########################################
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
-
 }
 // ##########################################
