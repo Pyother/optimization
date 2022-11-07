@@ -12,6 +12,8 @@ Akademia Górniczo-Hutnicza
 #include <random>
 #include <cstdlib>
 #include <fstream>
+#include <typeinfo>
+#include <vector>
 
 #include "libs/matrix.h"
 #include "libs/opt_alg.h"
@@ -58,24 +60,27 @@ void lab1() {
     int x0 = 100, d = 1, alpha = 2, Nmax = 1000;
     //x0 = 100;
     //alpha = 2;
-    ofstream myFile(R"(out.csv)");
+    ofstream expansionFile(R"(expansion.csv)");
+
     for (int i = 0; i < 100; i++) {
         x0 = rand() % 200 + 1;
         interval = expansion(func_lab_1, x0, d, alpha, Nmax, matrix(3, Y), ud2);
-        cout << "\nx0 = " << x0 << endl;
-        cout << "a = " << interval[0] << endl;
-        cout << "b = " << interval[1] << endl;
-        cout << "f_calls = " << solution::f_calls;
-
-        myFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
+        expansionFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+        fibSol = fib(func_lab_1,interval[0],interval[1],0.00001);
+        solution::clear_calls();
+        lagSol = lag(func_lab_1,interval[0],interval[1],0.0001,0.0000001,1000);
         solution::clear_calls();
     }
-    myFile.close();
+    expansionFile.close();
     //printf("[%f,%f]",interval[0],interval[1]);
 
     //fibonacci- ok
 //    fibSol= fib(func_lab_1,10,100,0.00001);
-//    cout<<"("<<fibSol.x<<","<<fibSol.y<<")"<<endl;
+//    cout << fibSol.x << endl << fibSol.y << endl;
+
+
+
 
     //Lagrange- ok ale wiêcej wywo³añ funkcji (niepotrzebne wywo³ania?)
 //    lagSol=lag(func_lab_1,-10,1,0.0001,0.0000001,1000);
