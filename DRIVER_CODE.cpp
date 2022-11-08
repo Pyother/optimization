@@ -60,13 +60,15 @@ void lab1() {
     Y[2] = 1;
     matrix ud2;
     //ekspansja- dobre wyniki inne przedzia³y
-    int x0, d = 1, alpha = 2, Nmax = 1000;
-
+    int x0, d = 1, alpha = 3.342, Nmax = 1000;
 
     #if tab1
 
         ofstream expansionFile;
-        expansionFile.open("out.csv", ofstream::out);
+        ofstream fibbonacciFile, lagrangeFile;
+        expansionFile.open("expansion1.csv", ofstream::out);
+        fibbonacciFile.open("fibbonacci1.csv", ofstream::out);
+        lagrangeFile.open("lagrange1.csv", ofstream::out);
 
         for (int i = 0; i < 100; i++) {
             x0 = rand() % 200 + 1;
@@ -74,18 +76,22 @@ void lab1() {
             expansionFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
             solution::clear_calls();
             fibSol = fib(func_lab_1,interval[0],interval[1],0.00001);
+            fibbonacciFile << fibSol.x << " " <<fibSol.y << " " << solution::f_calls << endl;
             solution::clear_calls();
             lagSol = lag(func_lab_1,interval[0],interval[1],0.0001,0.0000001,1000);
+            lagrangeFile << lagSol.x << " " <<lagSol.y << " " << solution::f_calls << endl;
             solution::clear_calls();
         }
         expansionFile.close();
+        fibbonacciFile.close();
+        lagrangeFile.close();
 
     #endif
 
     #if tab2
 
         matrix ab_F(1, 1, 200);
-        solution opt_f = fib(func_lab_1, -100, 100, epsilon);
+        solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
         cout << endl << endl;
         cout << "Fibonacci:" << endl;
         cout << opt_f ;
@@ -93,7 +99,7 @@ void lab1() {
         cout << endl << endl;
 
         matrix ab_L(1, 1, 200);
-        solution opt_l = lag(func_lab_1,-100,100, epsilon, gamma,1000);
+        solution opt_l = lag(func_lab_1,interval[0],interval[1], epsilon, gamma,1000);
         cout << "Lagrange:" << endl;
         cout << opt_l;
         cout << "ab_F = " << endl << ab_L << endl;
