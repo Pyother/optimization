@@ -1,65 +1,46 @@
 #include"../libs/opt_alg.h"
 
 double *
-expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
-    try {
-        auto *p = new double[2]{0, 0};
-        solution X0(x0), X1(x0 + d);
-        X0.fit_fun(ff, ud1, ud2);
-        X1.fit_fun(ff, ud1, ud2);
+expansion(matrix(ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
+    auto *p = new double[2]{0, 0};
+    solution X0(x0), X1(x0 + d);
+    X0.fit_fun(ff, ud1, ud2);
+    X1.fit_fun(ff, ud1, ud2);
 
-        if (X0.y == X1.y) {
-            p[0] = m2d(X0.x);
-            p[1] = m2d(X1.x);
+    if (X0.y == X1.y) {
+        p[0] = m2d(X0.x);
+        p[1] = m2d(X1.x);
 //            cout << "if 1\n";
-            cout << " Liczba wywolan  = " << solution::f_calls << endl;
-            return p;
-
-        }
-        if (X0.y < X1.y) {
-            d = -d;
-            X1.x = X0.x + d;
-            X1.fit_fun(ff, ud1, ud2);
-//            cout << "if 2\n";
-            if (X1.y >= X0.y) {
-                p[0] = X1.x();
-                p[1] = X0.x() - d;
-                cout << " Liczba wywolan  = " << solution::f_calls;
-                return p;
-            }
-        }
-        int i = 0;
-        solution X2(X1.x), X3;
-//        cout << "d: " << d << endl;
-
-        do {
-//            cout << "loop: " << (solution::f_calls-1)/2 << endl;
-            if (solution::f_calls > Nmax) {
-//                std::cout << "Limit of function call reached";
-                throw std::runtime_error("ERROR OCCURED!");
-            }
-            i++;
-            X1 = X2;
-            X2 = solution(x0 + pow(alpha, i + 1) * d);
-            X1.fit_fun(ff, ud1, ud2);
-            X2.fit_fun(ff, ud1, ud2);
-//            printf("(%f,%f)\n", X1.x(), X2.x());
-//            printf("(%f,%f)\n",m2d(X1.y),m2d(X2.y));
-
-        } while (X1.y >= X2.y);
-
-        X0 = solution(x0 + pow(alpha, i - 1) * d);;
-        X1 = X2;
-        X0.fit_fun(ff, ud1, ud2);
-        X1.fit_fun(ff, ud1, ud2);
-//        printf("[%f,%f]\n\n\n\n",m2d(X0.y),m2d(X1.y));
-        d > 0 ? p[0] = X0.x(), p[1] = X1.x() : (p[0] = X1.x(), p[1] = X0.x());
-        cout << " Liczba wywolan  = " << solution::f_calls;
+        cout << " Liczba wywolan  = " << solution::f_calls << endl;
         return p;
+
     }
-    catch (string ex_info) {
-        throw ("double* expansion(...):\n" + ex_info);
+    if (X0.y < X1.y) {
+        d = -d;
+        X1.x = X0.x + d;
+        X1.fit_fun(ff, ud1, ud2);
+        if (X1.y >= X0.y) {
+            p[0] = X1.x();
+            p[1] = X0.x() - d;
+            cout << " Liczba wywolan  = " << solution::f_calls;
+            return p;
+        }
     }
+    solution X2(X1.x);
+    int i = 0;
+    while (true) {
+        i++;
+        X2.x = x0 + pow(alpha, i) * d;
+        X2.fit_fun(ff, ud1, ud2);
+
+        if (X2.y >= X1.y || solution::f_calls > Nmax)
+            break;
+        X0 = X1;
+        X1 = X2;
+
+    }
+    d > 0 ? p[0] = X0.x(), p[1] = X2.x() : (p[0] = X2.x(), p[1] = X0.x());
+    return p;
 }
 
 solution fib(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, matrix ud1, matrix ud2) {
@@ -175,73 +156,70 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
     }
 }
 
-//solution
-//HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
-//   matrix ud2)
-//{
-//    try
-//    {
-//        solution Xopt;
-//        Xopt.ud = b - a;
-//        solution A(a), B(b), C, D, D_old(a);
-//        C.x = (a + b) / 2;
-//        A.fit_fun(ff, ud1, ud2);
-//        B.fit_fun(ff, ud1, ud2);
-//        C.fit_fun(ff, ud1, ud2);
-//        double l, m;
-//        while (true)
-//        {
-//            l = m2d(A.y * (pow(B.x) - pow(C.x)) + B.y * (pow(C.x) - pow(A.x)) + C.y * (pow(A.x) - pow(B.x)));
-//            m = m2d(A.y * (B.x - C.x) + B.y * (C.x - A.x) + C.y * (A.x - B.x));
-//            if (m <= 0)
-//            {
-//                Xopt = D_old;
-//                Xopt.flag = 2;
-//                return Xopt;
-//            }
-//            D.x = 0.5 * l / m;
-//            D.fit_fun(ff, ud1, ud2);
-//            if (A.x <= D.x && D.x <= C.x)
-//            {
-//                ???
-//            }
-//            else if (C.x <= D.x && D.x <= B.x)
-//            {
-//                ???
-//            }
-//            else
-//            {
-//                Xopt = D_old;
-//                Xopt.flag = 2;
-//                return Xopt;
-//            }
-//            Xopt.ud.add_row((B.x - A.x)());
-//            if (B.x - A.x < epsilon || abs(D.x() - D_old.x()) < gamma)
-//            {
-//                Xopt = D;
-//                Xopt.flag = 0;
-//                break;
-//            }
-//            if (solution::f_calls > Nmax)
-//            {
-//                Xopt = D;
-//                Xopt.flag = 1;
-//                break;
-//            }
-//            D_old = D;
-//        }
-//        return Xopt;
-//    }
-//    catch (string ex_info)
-//    {
-//        throw ("solution lag(...):\n" + ex_info);
-//    }
-//}
+solution
+HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
+   matrix ud2) {
+    try {
+        while (true) {
+            solution X, Xb, XbOld;
+            X = HJ_trial(ff, Xb, s, ud1, ud2);
+            X.fit_fun(ff, ud1, ud2);
+            Xb.fit_fun(ff, ud1, ud2);
+            if (X.y < Xb.y) {
+                while (true) {
+                    XbOld.x = Xb.x;
+                    Xb.x = X.x;
+                    X = 2 * Xb.x - XbOld.x;
+                    X = HJ_trial(ff, Xb, s, ud1, ud2);
+                    if (solution::f_calls > Nmax) {
+                        Xb.flag = 1;
+                        return Xb;
+                    }
+
+
+                }
+            } else {
+                s *= alpha;
+            }
+            if (solution::f_calls > Nmax) {
+                Xb.flag = 1;
+                return Xb;
+            }
+            X.x = Xb.x;
+        }
+    }
+    catch (string ex_info) {
+        throw ("solution lag(...):\n" + ex_info);
+    }
+}
 
 solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2) {
     try {
-        //Tu wpisz kod funkcji
+        int n = get_dim(XB);
+        solution X0, X1, X2;
+        X0 = solution(XB);
+        X0.fit_fun(ff, ud1, ud2);
+        matrix e = ident_mat(n);
+        while (true) {
 
+
+            for (int i = 0; i < n; i++) {
+                X1 = solution(X0.x + s * e(i));
+                X1.fit_fun(ff, ud1, ud2);
+                X0.fit_fun(ff, ud1, ud2);
+                if (X0.y < X1.y) {
+                    X0.x = X1.x;
+                } else {
+                    X1 = solution(X0.x - s * e(i));
+                    X1.fit_fun(ff, ud1, ud2);
+                    if (X0.y < X1.y) {
+                        X0.x = X1.x;
+                    }
+                }
+
+            }
+
+        }
         return XB;
     }
     catch (string ex_info) {
@@ -253,6 +231,19 @@ solution
 Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax,
       matrix ud1, matrix ud2) {
     try {
+        int n= get_dim(x0);
+        int i=0;
+        matrix dj= ident_mat(n),lj,pf;
+        solution Xb=solution(x0);
+
+        while(true){
+            for(int j=1;j<n;j++){
+                Xb.x=Xb.x+s0(j)*dj(i);
+//                if(x){
+//
+//                }
+            }
+        }
         solution Xopt;
         //Tu wpisz kod funkcji
 

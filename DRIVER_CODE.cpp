@@ -15,12 +15,16 @@ Akademia Górniczo-Hutnicza
 #include "libs/matrix.h"
 #include "libs/opt_alg.h"
 #include "libs/solution.h"
-
+#include "libs/user_funs.h"
 
 
 using namespace std;
 
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
+
+matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
+
+void simulation(matrix Da, matrix ud1, matrix ud2);
 
 void lab1();
 
@@ -34,8 +38,10 @@ void lab5();
 
 void lab6();
 
+
 int main() {
     try {
+
         lab1();
     }
     catch (string EX_INFO) {
@@ -47,21 +53,61 @@ int main() {
 
 void lab1() {
 
-    #define tab1 1
-    #define tab2 1
+#define tab1 1
+#define tab2 1
     double epsilon = 1e-5;
     double gamma = 1e-200;
+    matrix ud1, ud2;
 
-    double* interval;
+
+    double Da0 = 1.0e-4;
+    double d = 0.01;
+    double alpha = 2;
+    int Nmax = 1000;
     solution fibSol, lagSol;
-    double* Y = new double[3];
-    Y[0] = 1;
-    Y[1] = 1;
-    Y[2] = 1;
-    matrix ud2;
-    //ekspansja- dobre wyniki inne przedzia³y
-    int x0, d = 1, alpha = 3.342, Nmax = 1000;
+//    //ud1 = matrix(3, new double[3]{5, 1, 10});
+//    double *Range = expansion(Fr, Da0, d, alpha, Nmax, ud1);
+//    cout << "test range: (" << Range[0] << "," << Range[1] << ")" << endl;
 
+
+//    solution::clear_calls();
+//    fibSol = fib(Fr, Range[0], Range[1], epsilon);
+//    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+//    fibSol.clear_calls();
+//    lagSol = lag(Fr, Range[0], Range[1], epsilon, gamma, 1000);
+//    cout << lagSol.x << " " << lagSol.y << " " << solution::f_calls << endl;
+//
+//     ofstream tabela3File;
+//    tabela3File.open("tabela3File.csv", ofstream::out);
+//    solution::clear_calls();
+//    matrix Da = matrix(1, new double[1]{0.00208884});
+//    matrix Y0 = matrix(3, new double[3]{5, 1, 10});
+//    matrix *Y = solve_ode(problem, 0, 1, 300, Y0, 0, lagSol.x);
+//    tabela3File << Y[0] << " " <<Y[1][2] << " " << endl;
+//
+//
+//    tabela3File.close();
+//    //simulation(Da, ud1, ud1);
+
+
+
+
+
+////    solution fibSol,lagSol;
+////    //ekspansja- dobre wyniki inne przedzia?y
+//    interval= expansion(func_lab_1,-100.0,1.0,2,1000);
+//    printf("[%f,%f]",interval[0],interval[1]);
+//    //double* interval;
+// solution fibSol, lagSol;
+//    double* Y = new double[3];
+//    Y[0] = 1;
+//    Y[1] = 1;
+//    Y[2] = 1;
+//    matrix ud2;
+//    //ekspansja- dobre wyniki inne przedzia³y
+    int x0, d = 1, alpha = 3.342, Nmax = 1000;
+//
+    double* interval=new double[2];
     #if tab1
 
         ofstream expansionFile;
@@ -151,4 +197,37 @@ void lab6() {
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
 }
+
+matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
+    return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
+}
+
+void simulation(matrix Da, matrix ud1, matrix ud2) {
+//cout<<ud2(0);
+    solution fibSol, lagSol;
+
+    double epsilon = 1e-5;
+    double gamma = 1e-200;
+//    matrix Y0 = matrix(3, new double[3]{5, 1, 10});
+//    matrix Y = problem(0, Y0, ud1, Da);
+//    Y0(0) += Y(0);
+//    Y0(1) += Y(1);
+//    Y0(2) += Y(2);
+//    matrix dY0;
+//    for (int t = 0; t < 30; t++) {
+//        dY0 = problem(t, Y, ud1, Da);
+//        Y0(0) += dY0(0);
+//        Y0(1) += dY0(1);
+//        Y0(2) += dY0(2);
+//        cout << "A:" << Y0(0) << ",B: " << Y0(1) << ", temp:" << Y0(2) << endl;
+//    }
+    ud1 = matrix(3, new double[3]{5, 1, 10});
+    fibSol = fib(Fr, Da(0), Da(0), epsilon);
+    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+    solution::clear_calls();
+    fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
+    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+}
+
+
 // ##########################################
