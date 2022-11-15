@@ -9,10 +9,16 @@ Akademia Górniczo-Hutnicza
 #include <iostream>
 #include <cmath>
 #include <vector>
-
+#include <random>
+#include <cstdlib>
+#include <fstream>
 #include "libs/matrix.h"
-#include"libs/opt_alg.h"
-#include"libs/user_funs.h"
+#include "libs/opt_alg.h"
+#include "libs/solution.h"
+
+
+
+using namespace std;
 
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
@@ -40,20 +46,73 @@ int main() {
 }
 
 void lab1() {
-    double * interval;
+
+    #define tab1 1
+    #define tab2 1
+    double epsilon = 1e-5;
+    double gamma = 1e-200;
+
+    double* interval;
     solution fibSol, lagSol;
-    double *Y = new double[3];
+    double* Y = new double[3];
     Y[0] = 1;
     Y[1] = 1;
     Y[2] = 1;
     matrix ud2;
     //ekspansja- dobre wyniki inne przedzia³y
-    interval = expansion(fun, 0, 1, 1.5, 1000,matrix(3,Y) ,ud2);
+    int x0, d = 1, alpha = 3.342, Nmax = 1000;
+
+    #if tab1
+
+        ofstream expansionFile;
+        ofstream fibbonacciFile, lagrangeFile;
+        expansionFile.open("expansion1.csv", ofstream::out);
+        fibbonacciFile.open("fibbonacci1.csv", ofstream::out);
+        lagrangeFile.open("lagrange1.csv", ofstream::out);
+
+        for (int i = 0; i < 100; i++) {
+            x0 = rand() % 200 + 1;
+            interval = expansion(func_lab_1, x0, d, alpha, Nmax, matrix(3, Y), ud2);
+            expansionFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
+            solution::clear_calls();
+            fibSol = fib(func_lab_1,interval[0],interval[1],0.00001);
+            fibbonacciFile << fibSol.x << " " <<fibSol.y << " " << solution::f_calls << endl;
+            solution::clear_calls();
+            lagSol = lag(func_lab_1,interval[0],interval[1],0.0001,0.0000001,1000);
+            lagrangeFile << lagSol.x << " " <<lagSol.y << " " << solution::f_calls << endl;
+            solution::clear_calls();
+        }
+        expansionFile.close();
+        fibbonacciFile.close();
+        lagrangeFile.close();
+
+    #endif
+
+    #if tab2
+
+        matrix ab_F(1, 1, 200);
+        solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
+        cout << endl << endl;
+        cout << "Fibonacci:" << endl;
+        cout << opt_f ;
+        cout << "ab_F = " << endl << ab_F << endl;
+        cout << endl << endl;
+
+        matrix ab_L(1, 1, 200);
+        solution opt_l = lag(func_lab_1,interval[0],interval[1], epsilon, gamma,1000);
+        cout << "Lagrange:" << endl;
+        cout << opt_l;
+        cout << "ab_F = " << endl << ab_L << endl;
+
+    #endif
+
+
     //printf("[%f,%f]",interval[0],interval[1]);
 
     //fibonacci- ok
 //    fibSol= fib(func_lab_1,10,100,0.00001);
-//    cout<<"("<<fibSol.x<<","<<fibSol.y<<")"<<endl;
+//    cout << fibSol.x << endl << fibSol.y << endl;
+
 
     //Lagrange- ok ale wiêcej wywo³añ funkcji (niepotrzebne wywo³ania?)
 //    lagSol=lag(func_lab_1,-10,1,0.0001,0.0000001,1000);
@@ -91,6 +150,5 @@ void lab6() {
 // ##########################################
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
-
 }
 // ##########################################

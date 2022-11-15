@@ -11,7 +11,8 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
         if (X0.y == X1.y) {
             p[0] = m2d(X0.x);
             p[1] = m2d(X1.x);
-            cout << "if 1\n";
+//            cout << "if 1\n";
+            cout << " Liczba wywolan  = " << solution::f_calls << endl;
             return p;
 
         }
@@ -19,21 +20,22 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
             d = -d;
             X1.x = X0.x + d;
             X1.fit_fun(ff, ud1, ud2);
-            cout << "if 2\n";
+//            cout << "if 2\n";
             if (X1.y >= X0.y) {
                 p[0] = X1.x();
                 p[1] = X0.x() - d;
+                cout << " Liczba wywolan  = " << solution::f_calls;
                 return p;
             }
         }
         int i = 0;
         solution X2(X1.x), X3;
-        cout << "d: " << d << endl;
+//        cout << "d: " << d << endl;
 
         do {
-            cout << "loop: " << (solution::f_calls-1)/2 << endl;
+//            cout << "loop: " << (solution::f_calls-1)/2 << endl;
             if (solution::f_calls > Nmax) {
-                std::cout << "Limit of function call reached";
+//                std::cout << "Limit of function call reached";
                 throw std::runtime_error("ERROR OCCURED!");
             }
             i++;
@@ -41,8 +43,8 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
             X2 = solution(x0 + pow(alpha, i + 1) * d);
             X1.fit_fun(ff, ud1, ud2);
             X2.fit_fun(ff, ud1, ud2);
-            printf("(%f,%f)\n", X1.x(), X2.x());
-            printf("(%f,%f)\n",m2d(X1.y),m2d(X2.y));
+//            printf("(%f,%f)\n", X1.x(), X2.x());
+//            printf("(%f,%f)\n",m2d(X1.y),m2d(X2.y));
 
         } while (X1.y >= X2.y);
 
@@ -50,8 +52,9 @@ expansion(matrix(*ff)(matrix, matrix, matrix), double x0, double d, double alpha
         X1 = X2;
         X0.fit_fun(ff, ud1, ud2);
         X1.fit_fun(ff, ud1, ud2);
-        printf("[%f,%f]\n\n\n\n",m2d(X0.y),m2d(X1.y));
+//        printf("[%f,%f]\n\n\n\n",m2d(X0.y),m2d(X1.y));
         d > 0 ? p[0] = X0.x(), p[1] = X1.x() : (p[0] = X1.x(), p[1] = X0.x());
+        cout << " Liczba wywolan  = " << solution::f_calls;
         return p;
     }
     catch (string ex_info) {
