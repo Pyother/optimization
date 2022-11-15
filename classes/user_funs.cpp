@@ -12,7 +12,7 @@ const double Ta = 90;
 const double Fbin = 0.01;
 const double Tbin = 10;
 
-const double Db = 36.5665 / 1000;
+const double Db = 36.5665 / 10000;
 
 //assuming
 
@@ -28,8 +28,13 @@ matrix problem(double t, matrix Y, matrix ud1, matrix ud2) {
     dY(0) = -Fa;
     dY(1) = Fa + Fbin - Fb;
     dY(2) = (Fbin / Y(1)) * (Tbin - Y(2)) + (Fa / Y(1)) * (Ta - Y(2));
-//    if (t > 1)
-//        cout << "A:" << Y(0) + dY(0) << ",B: " << Y(0) + dY(1) << ", temp:" << Y(0) + dY(2) << endl;
+//    if (ud1(0)&& (int)(t*10)%10==0)
+//    {
+//        ud1(0)=ud1(0)+dY(0);
+//        ud1(1)=ud1(1)+dY(1);
+//        ud1(2)=ud1(2)+dY(2);
+//       cout <<"t"<<t<< " A:" << Y(0) + dY(0) << ",B: " << Y(0) + dY(1) << ", temp:" << Y(0) + dY(2) << endl;
+//    }
     return dY;
 }
 
@@ -37,7 +42,7 @@ matrix problem(double t, matrix Y, matrix ud1, matrix ud2) {
 matrix Fr(matrix X, matrix ud1, matrix ud2) {
 //cout<<ud2(0);
     matrix Y0 = matrix(3, new double[3]{5, 1, 10});
-    matrix *Y = solve_ode(problem, 0, 1, 1000, Y0, ud1, X);
+    matrix *Y = solve_ode(problem, 0, 1,1000, Y0, ud1, X);
 
     int len = get_len(Y[0]);
     double max = Y[1](0, 2);
@@ -48,8 +53,8 @@ matrix Fr(matrix X, matrix ud1, matrix ud2) {
     return y;
 }
 
-matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
-    matrix y;
-    y=
-    return y;
-}
+//matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
+//    matrix y;
+//    y=
+//    return y;
+//}

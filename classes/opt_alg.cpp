@@ -239,9 +239,9 @@ Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, d
         while(true){
             for(int j=1;j<n;j++){
                 Xb.x=Xb.x+s0(j)*dj(i);
-                if(x){
-
-                }
+//                if(x){
+//
+//                }
             }
         }
         solution Xopt;
