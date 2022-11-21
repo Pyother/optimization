@@ -53,6 +53,8 @@ matrix Fr(matrix X, matrix ud1, matrix ud2) {
     return y;
 }
 
+
+
 //matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
 //    matrix y;
 //    y=

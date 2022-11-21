@@ -38,11 +38,9 @@ void lab5();
 
 void lab6();
 
-
 int main() {
     try {
-
-        lab1();
+        lab2();
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -53,8 +51,8 @@ int main() {
 
 void lab1() {
 
-#define tab1 1
-#define tab2 1
+    #define tab1 1
+    #define tab2 1
     double epsilon = 1e-5;
     double gamma = 1e-200;
     matrix ud1, ud2;
@@ -99,13 +97,14 @@ void lab1() {
 //    printf("[%f,%f]",interval[0],interval[1]);
 //    //double* interval;
 // solution fibSol, lagSol;
-//    double* Y = new double[3];
-//    Y[0] = 1;
-//    Y[1] = 1;
-//    Y[2] = 1;
+    double* Y = new double[3];
+    Y[0] = 1;
+    Y[1] = 1;
+    Y[2] = 1;
 //    matrix ud2;
-//    //ekspansja- dobre wyniki inne przedzia³y
-    int x0, d = 1, alpha = 3.342, Nmax = 1000;
+    //ekspansja- dobre wyniki inne przedzia³y
+    int x0;
+    d = 1, alpha = 3.342, Nmax = 1000;
 //
     double* interval=new double[2];
     #if tab1
@@ -167,6 +166,8 @@ void lab1() {
 
 void lab2() {
 
+
+
 }
 
 void lab3() {
@@ -202,12 +203,13 @@ matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
 }
 
-void simulation(matrix Da, matrix ud1, matrix ud2) {
-//cout<<ud2(0);
-    solution fibSol, lagSol;
 
-    double epsilon = 1e-5;
-    double gamma = 1e-200;
+    void simulation(matrix Da, matrix ud1, matrix ud2) {
+//cout<<ud2(0);
+        solution fibSol, lagSol;
+
+        double epsilon = 1e-5;
+        double gamma = 1e-200;
 //    matrix Y0 = matrix(3, new double[3]{5, 1, 10});
 //    matrix Y = problem(0, Y0, ud1, Da);
 //    Y0(0) += Y(0);
@@ -221,13 +223,13 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
 //        Y0(2) += dY0(2);
 //        cout << "A:" << Y0(0) << ",B: " << Y0(1) << ", temp:" << Y0(2) << endl;
 //    }
-    ud1 = matrix(3, new double[3]{5, 1, 10});
-    fibSol = fib(Fr, Da(0), Da(0), epsilon);
-    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-    solution::clear_calls();
-    fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
-    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-}
+        ud1 = matrix(3, new double[3]{5, 1, 10});
+        fibSol = fib(Fr, Da(0), Da(0), epsilon);
+        cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+        solution::clear_calls();
+        fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
+        cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+    }
 
 
 // ##########################################

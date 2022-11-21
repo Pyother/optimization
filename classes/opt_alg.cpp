@@ -194,31 +194,34 @@ HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, doubl
 }
 
 solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2) {
-    try {
+    try
+    {
         int n = get_dim(XB);
         solution X0, X1, X2;
         X0 = solution(XB);
         X0.fit_fun(ff, ud1, ud2);
         matrix e = ident_mat(n);
-        while (true) {
-
-
-            for (int i = 0; i < n; i++) {
+        while (true)
+        {
+            for (int i = 0; i < n; i++)
+            {
                 X1 = solution(X0.x + s * e(i));
                 X1.fit_fun(ff, ud1, ud2);
                 X0.fit_fun(ff, ud1, ud2);
-                if (X0.y < X1.y) {
+                if (X0.y < X1.y)
+                {
                     X0.x = X1.x;
-                } else {
+                }
+                else
+                {
                     X1 = solution(X0.x - s * e(i));
                     X1.fit_fun(ff, ud1, ud2);
-                    if (X0.y < X1.y) {
+                    if (X0.y < X1.y)
+                    {
                         X0.x = X1.x;
                     }
                 }
-
             }
-
         }
         return XB;
     }
@@ -227,27 +230,37 @@ solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, ma
     }
 }
 
-solution
-Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax,
+
+
+solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax,
       matrix ud1, matrix ud2) {
     try {
-        int n= get_dim(x0);
-        int i=0;
-        matrix dj= ident_mat(n),lj,pf;
+
+        int n = get_dim(x0);
+        matrix dj = ident_mat(n),lj,pf;
         solution Xb=solution(x0);
+        solution X;
 
         while(true){
-            for(int j=1;j<n;j++){
-                Xb.x=Xb.x+s0(j)*dj(i);
-//                if(x){
-//
-//                }
-            }
-        }
-        solution Xopt;
-        //Tu wpisz kod funkcji
+            for(int i=0;i<n;i++)
+            {
+                X.x=Xb.x+s0(i)*dj(i);
 
-        return Xopt;
+                if(X.y < Xb.y)
+                {
+                    Xb = X;
+                    lj(i) = lj(i) + s0(i);
+                    s0(i) = s0(i) *= alpha;
+                }
+                else
+                {
+                    ++pf(i);
+                    s0(i) = s0(i)*(-1)*beta;
+                }
+            }
+            ud1.add_row(trans(X.x));
+        }
+        return X;
     }
     catch (string ex_info) {
         throw ("solution Rosen(...):\n" + ex_info);
