@@ -23,6 +23,7 @@ using namespace std;
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
+matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
 
 void simulation(matrix Da, matrix ud1, matrix ud2);
 
@@ -50,13 +51,11 @@ int main() {
 }
 
 void lab1() {
-
-    #define tab1 1
-    #define tab2 1
+#define tab1 1
+#define tab2 1
     double epsilon = 1e-5;
     double gamma = 1e-200;
     matrix ud1, ud2;
-
 
     double Da0 = 1.0e-4;
     double d = 0.01;
@@ -87,17 +86,13 @@ void lab1() {
 //    tabela3File.close();
 //    //simulation(Da, ud1, ud1);
 
-
-
-
-
 ////    solution fibSol,lagSol;
 ////    //ekspansja- dobre wyniki inne przedzia?y
 //    interval= expansion(func_lab_1,-100.0,1.0,2,1000);
 //    printf("[%f,%f]",interval[0],interval[1]);
 //    //double* interval;
 // solution fibSol, lagSol;
-    double* Y = new double[3];
+    double *Y = new double[3];
     Y[0] = 1;
     Y[1] = 1;
     Y[2] = 1;
@@ -106,54 +101,52 @@ void lab1() {
     int x0;
     d = 1, alpha = 3.342, Nmax = 1000;
 //
-    double* interval=new double[2];
-    #if tab1
+    double *interval = new double[2];
+#if tab1
 
-        ofstream expansionFile;
-        ofstream fibbonacciFile, lagrangeFile;
-        expansionFile.open("expansion1.csv", ofstream::out);
-        fibbonacciFile.open("fibbonacci1.csv", ofstream::out);
-        lagrangeFile.open("lagrange1.csv", ofstream::out);
+    ofstream expansionFile;
+    ofstream fibbonacciFile, lagrangeFile;
+    expansionFile.open("expansion1.csv", ofstream::out);
+    fibbonacciFile.open("fibbonacci1.csv", ofstream::out);
+    lagrangeFile.open("lagrange1.csv", ofstream::out);
 
-        for (int i = 0; i < 100; i++) {
-            x0 = rand() % 200 + 1;
-            interval = expansion(func_lab_1, x0, d, alpha, Nmax, matrix(3, Y), ud2);
-            expansionFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
-            solution::clear_calls();
-            fibSol = fib(func_lab_1,interval[0],interval[1],0.00001);
-            fibbonacciFile << fibSol.x << " " <<fibSol.y << " " << solution::f_calls << endl;
-            solution::clear_calls();
-            lagSol = lag(func_lab_1,interval[0],interval[1],0.0001,0.0000001,1000);
-            lagrangeFile << lagSol.x << " " <<lagSol.y << " " << solution::f_calls << endl;
-            solution::clear_calls();
-        }
-        expansionFile.close();
-        fibbonacciFile.close();
-        lagrangeFile.close();
+    for (int i = 0; i < 100; i++) {
+        x0 = rand() % 200 + 1;
+        interval = expansion(func_lab_1, x0, d, alpha, Nmax, matrix(3, Y), ud2);
+        expansionFile << x0 << ", " << interval[0] << ", " << interval[1] << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+        fibSol = fib(func_lab_1, interval[0], interval[1], 0.00001);
+        fibbonacciFile << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+        solution::clear_calls();
+        lagSol = lag(func_lab_1, interval[0], interval[1], 0.0001, 0.0000001, 1000);
+        lagrangeFile << lagSol.x << " " << lagSol.y << " " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    expansionFile.close();
+    fibbonacciFile.close();
+    lagrangeFile.close();
 
-    #endif
+#endif
 
-    #if tab2
+#if tab2
 
-        matrix ab_F(1, 1, 200);
-        solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
-        cout << endl << endl;
-        cout << "Fibonacci:" << endl;
-        cout << opt_f ;
-        cout << "ab_F = " << endl << ab_F << endl;
-        cout << endl << endl;
+    matrix ab_F(1, 1, 200);
+    solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
+    cout << endl << endl;
+    cout << "Fibonacci:" << endl;
+    cout << opt_f;
+    cout << "ab_F = " << endl << ab_F << endl;
+    cout << endl << endl;
 
-        matrix ab_L(1, 1, 200);
-        solution opt_l = lag(func_lab_1,interval[0],interval[1], epsilon, gamma,1000);
-        cout << "Lagrange:" << endl;
-        cout << opt_l;
-        cout << "ab_F = " << endl << ab_L << endl;
+    matrix ab_L(1, 1, 200);
+    solution opt_l = lag(func_lab_1, interval[0], interval[1], epsilon, gamma, 1000);
+    cout << "Lagrange:" << endl;
+    cout << opt_l;
+    cout << "ab_F = " << endl << ab_L << endl;
 
-    #endif
-
+#endif
 
     //printf("[%f,%f]",interval[0],interval[1]);
-
     //fibonacci- ok
 //    fibSol= fib(func_lab_1,10,100,0.00001);
 //    cout << fibSol.x << endl << fibSol.y << endl;
@@ -165,13 +158,49 @@ void lab1() {
 }
 
 void lab2() {
+    double s = 0.25,
+            alphaHJ = 0.25,
+            alphaR = 1.5,
+            beta = 0.125,
+            epsilon = 1e-8;
+    int Nmax = 1000;
 
+    matrix ud1=matrix(),ud2=matrix();
 
+    matrix x0 = matrix(2, 1, -1.0);
+    //cout << x0;
+    solution::clear_calls();
+    cout << "HJ:\n" << endl;
+    solution sol1 = HJ(func_lab_2,x0,s,alphaHJ,epsilon,Nmax,ud1,ud2);
+    //if (sol == NULL) cout << "NULL";
+    cout << sol1 << endl;
+    solution::clear_calls();
+    matrix s0 = matrix(2, 1, s);
 
+    cout << "ROSEN\n" << endl;
+    solution sol2 = Rosen(func_lab_2, x0, s0, alphaR, beta, epsilon, Nmax,ud1,ud2);
+    cout << sol2 << endl;
+
+    //PROBLEM RZECZYWISTY
+    solution opt;
+    s = 2;
+    x0 = 10 * rand_mat(2, 1);
+    cout << x0 << endl << endl;
+    opt = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax,ud1,ud2);
+    cout << opt << endl << endl;
+    solution::clear_calls();
+    s0 = matrix(2, 1, s);
+    opt = Rosen(func_lab_2, x0, s0, alphaR, beta, epsilon, Nmax,ud1,ud2);
+    cout << opt << endl << endl;
+    solution::clear_calls();
 }
 
 void lab3() {
-
+//solution simp;
+//matrix x=matrix(2,new double[2]{-3,2}),ud1,ud2;
+//double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
+//simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
+//cout<<simp.x<<" " <<simp.y <<" " <<endl;
 }
 
 void lab4() {
@@ -200,16 +229,21 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
 }
 
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
-    return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
+    return (pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * 3.14 * x(0)) - cos(2.5 * 3.14 * x(1)) + 2);
+}
+
+matrix func_lab_3(matrix x, matrix ud1, matrix ud2) {
+    return (sin(3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)))) /
+           (3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)));
 }
 
 
-    void simulation(matrix Da, matrix ud1, matrix ud2) {
+void simulation(matrix Da, matrix ud1, matrix ud2) {
 //cout<<ud2(0);
-        solution fibSol, lagSol;
+    solution fibSol, lagSol;
 
-        double epsilon = 1e-5;
-        double gamma = 1e-200;
+    double epsilon = 1e-5;
+    double gamma = 1e-200;
 //    matrix Y0 = matrix(3, new double[3]{5, 1, 10});
 //    matrix Y = problem(0, Y0, ud1, Da);
 //    Y0(0) += Y(0);
@@ -223,13 +257,13 @@ matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
 //        Y0(2) += dY0(2);
 //        cout << "A:" << Y0(0) << ",B: " << Y0(1) << ", temp:" << Y0(2) << endl;
 //    }
-        ud1 = matrix(3, new double[3]{5, 1, 10});
-        fibSol = fib(Fr, Da(0), Da(0), epsilon);
-        cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-        solution::clear_calls();
-        fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
-        cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-    }
+    ud1 = matrix(3, new double[3]{5, 1, 10});
+    fibSol = fib(Fr, Da(0), Da(0), epsilon);
+    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+    solution::clear_calls();
+    fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
+    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+}
 
 
 // ##########################################

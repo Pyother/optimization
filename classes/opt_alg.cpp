@@ -156,119 +156,154 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
     }
 }
 
-solution
-HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
-   matrix ud2) {
-    try {
-        while (true) {
-            solution X, Xb, XbOld;
-            X = HJ_trial(ff, Xb, s, ud1, ud2);
-            X.fit_fun(ff, ud1, ud2);
-            Xb.fit_fun(ff, ud1, ud2);
-            if (X.y < Xb.y) {
-                while (true) {
-                    XbOld.x = Xb.x;
-                    Xb.x = X.x;
-                    X = 2 * Xb.x - XbOld.x;
-                    X = HJ_trial(ff, Xb, s, ud1, ud2);
-                    if (solution::f_calls > Nmax) {
-                        Xb.flag = 1;
-                        return Xb;
-                    }
 
+solution HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1, matrix ud2)
+{
+    try
+    {
+        solution XB, XB_old, X;
+        XB.x = x0;
+        XB.fit_fun(ff, ud1, ud2);
+        while (true)
+        {
 
+            X = HJ_trial(ff, XB, s, ud1, ud2);
+            //cout << X.x(0) << " " << X.x(1) << endl;
+            if (X.y < XB.y)
+            {
+                while (true)
+                {
+                    XB_old = XB;
+                    XB = X;
+                    X.x = XB.x + XB.x - XB_old.x;
+
+                    X.fit_fun(ff, ud1, ud2);
+                    X = HJ_trial(ff, X, s, ud1, ud2);
+                    if (X.y >= XB.y)
+                        break;
+                    if (XB.f_calls > Nmax)
+                        return XB;
                 }
-            } else {
+            }
+            else
                 s *= alpha;
-            }
-            if (solution::f_calls > Nmax) {
-                Xb.flag = 1;
-                return Xb;
-            }
-            X.x = Xb.x;
+            if (XB.f_calls > Nmax || s < epsilon)
+                return XB;
         }
+
     }
-    catch (string ex_info) {
-        throw ("solution lag(...):\n" + ex_info);
+    catch (string ex_info)
+    {
+        throw ("solution HJ(...):\n" + ex_info);
     }
 }
 
-solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2) {
+solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2)
+{
     try
     {
+        //Tu wpisz kod funkcji
         int n = get_dim(XB);
-        solution X0, X1, X2;
-        X0 = solution(XB);
-        X0.fit_fun(ff, ud1, ud2);
-        matrix e = ident_mat(n);
-        while (true)
-        {
-            for (int i = 0; i < n; i++)
-            {
-                X1 = solution(X0.x + s * e(i));
-                X1.fit_fun(ff, ud1, ud2);
-                X0.fit_fun(ff, ud1, ud2);
-                if (X0.y < X1.y)
-                {
-                    X0.x = X1.x;
-                }
-                else
-                {
-                    X1 = solution(X0.x - s * e(i));
-                    X1.fit_fun(ff, ud1, ud2);
-                    if (X0.y < X1.y)
-                    {
-                        X0.x = X1.x;
-                    }
-                }
+        solution X;
+        matrix d = ident_mat(n);
+        for (int i = 0; i < n; i++) {
+            X.x = XB.x + s * d[i];
+            X.fit_fun(ff,ud1,ud2);
+            if (X.y < XB.y) {
+                XB = X;
             }
+            else {
+                X.x = XB.x - s* d[i];
+                X.fit_fun(ff, ud1, ud2);
+                if (X.y < XB.y) {
+                    XB = X;
+                }
+
+            }
+
         }
         return XB;
     }
-    catch (string ex_info) {
+    catch (string ex_info)
+    {
         throw ("solution HJ_trial(...):\n" + ex_info);
     }
 }
 
-
-
-solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax,
-      matrix ud1, matrix ud2) {
-    try {
-
-        int n = get_dim(x0);
-        matrix dj = ident_mat(n),lj,pf;
-        solution Xb=solution(x0);
-        solution X;
-
-        while(true){
-            for(int i=0;i<n;i++)
+solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax, matrix ud1, matrix ud2)
+{
+    try
+    {
+        solution X(x0), Xt;
+        int n = get_dim(X);
+        matrix l(n, 1),
+                p(n, 1),
+                s(s0),
+                D = ident_mat(n);
+        X.fit_fun(ff, ud1, ud2);
+        while (true)
+        {
+            for (int i = 0; i < n; ++i)
             {
-                X.x=Xb.x+s0(i)*dj(i);
-
-                if(X.y < Xb.y)
+                Xt.x = X.x + s(i) * D[i];
+                Xt.fit_fun(ff, ud1, ud2);
+                if (Xt.y < X.y)
                 {
-                    Xb = X;
-                    lj(i) = lj(i) + s0(i);
-                    s0(i) = s0(i) *= alpha;
+                    X = Xt;
+                    l(i) += s(i);
+                    s(i) *= alpha;
                 }
                 else
                 {
-                    ++pf(i);
-                    s0(i) = s0(i)*(-1)*beta;
+                    ++p(i);
+                    s(i) *= -beta;
                 }
             }
-            ud1.add_row(trans(X.x));
+            bool change = true;
+            for (int i = 0; i < n; ++i)
+                if (p(i) == 0 || l(i) == 0)
+                {
+                    change = false;
+                    break;
+                }
+            if (change)
+            {
+                matrix Q(n, n), v(n, 1);
+                for (int i = 0; i < n; ++i)
+                    for (int j = 0; j <= i; ++j)
+                        Q(i, j) = l(i);
+                Q = D * Q;
+                v = Q[0] / norm(Q[0]);
+                D.set_col(v, 0);
+                for (int i = 1; i < n; ++i)
+                {
+                    matrix temp(n, 1);
+                    for (int j = 0; j < i; ++j)
+                        temp = temp + trans(Q[i]) * D[j] * D[j];
+                    v = (Q[i] - temp) / norm(Q[i] - temp);
+                    D.set_col(v, i);
+                }
+                s = s0;
+                l = matrix(n, 1);
+                p = matrix(n, 1);
+            }
+            double max_s = abs(s(0));
+            for (int i = 1; i < n; ++i)
+                if (max_s < abs(s(i)))
+                    max_s = abs(s(i));
+            if (max_s<epsilon || solution::f_calls>Nmax)
+                return X;
         }
-        return X;
     }
-    catch (string ex_info) {
+    catch (string ex_info)
+    {
         throw ("solution Rosen(...):\n" + ex_info);
     }
 }
 
-solution pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc, double epsilon, int Nmax, matrix ud1,
-             matrix ud2) {
+solution
+pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc, double epsilon, int Nmax, matrix ud1,
+    matrix ud2) {
     try {
         solution Xopt;
         //Tu wpisz kod funkcji
@@ -281,13 +316,41 @@ solution pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc
 }
 
 solution
-sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double beta, double gamma, double delta,
-       double epsilon, int Nmax, matrix ud1, matrix ud2) {
+sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double beta, double gamma,
+       double delta=0.5,
+       double epsilon=0.0001, int Nmax=10000, matrix ud1, matrix ud2) {
     try {
-        solution Xopt;
-        //Tu wpisz kod funkcji
-
-        return Xopt;
+//        int n = get_len(x0);
+//        matrix D = ident_mat(n);
+//        int N = n + 1;
+//        solution* S = new solution[N];
+//        S[0].x = x0;
+//        S[0].fit_fun(ff,ud1, ud2);
+//        for (int i = 1; i < N; ++i)
+//        {
+//            S[i].x = S[0].x + s * D[i - 1];
+//            S[i].fit_fun(ff,ud1, ud2);
+//        }
+//        solution PR, PE, PN;
+//        matrix pc;
+//        int i_min, i_max;
+//        while (true) {
+//            i_min = i_max = 0;
+//            for (int i = 1; i < N; ++i) {
+//                if (S[i_min].y > S[i].y)
+//                    i_min = i;
+//                if (S[i_max].y < S[i].y)
+//                    i_max = i;
+//            }
+//            pc = matrix(n, 1);
+//            for (int i = 0; i < N; ++i)
+//                if (i != i_max)
+//                    pc = pc + S[i].x;
+//            pc = pc / n;
+//        }
+//
+//
+//        return Xopt;
     }
     catch (string ex_info) {
         throw ("solution sym_NM(...):\n" + ex_info);
@@ -295,7 +358,8 @@ sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, d
 }
 
 solution
-SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0, double epsilon,
+SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0,
+   double epsilon,
    int Nmax, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
@@ -309,7 +373,8 @@ SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), mat
 }
 
 solution
-CG(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0, double epsilon,
+CG(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0,
+   double epsilon,
    int Nmax, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
@@ -337,7 +402,8 @@ solution Newton(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix,
 }
 
 solution
-golden(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, int Nmax, matrix ud1, matrix ud2) {
+golden(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, int Nmax, matrix ud1,
+       matrix ud2) {
     try {
         solution Xopt;
         //Tu wpisz kod funkcji
@@ -349,7 +415,8 @@ golden(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, 
     }
 }
 
-solution Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax, matrix ud1, matrix ud2) {
+solution
+Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
         //Tu wpisz kod funkcji
