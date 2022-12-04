@@ -12,6 +12,7 @@ Akademia Górniczo-Hutnicza
 #include <random>
 #include <cstdlib>
 #include <fstream>
+
 #include "libs/matrix.h"
 #include "libs/opt_alg.h"
 #include "libs/solution.h"
@@ -26,6 +27,7 @@ matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
 
+
 void simulation(matrix Da, matrix ud1, matrix ud2);
 
 void lab1();
@@ -39,6 +41,7 @@ void lab4();
 void lab5();
 
 void lab6();
+
 
 int main() {
     try {
@@ -191,13 +194,9 @@ void lab6() {
 }
 
 // ##########################################
-// LAB1 - mathematical functions
 // ##########################################
-//
-//
-// PLIK opt_algo.cpp
-//
-//
+// Mathematical functions for LABs
+// ##########################################
 // ##########################################
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
@@ -240,5 +239,5 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
     cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
 }
 
-
+// ##########################################
 // ##########################################
