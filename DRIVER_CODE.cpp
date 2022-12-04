@@ -104,7 +104,7 @@ void lab1() {
     //ekspansja- dobre wyniki inne przedzia³y
     int x0;
     d = 1, alpha = 3.342, Nmax = 1000;
-//
+
     double *interval = new double[2];
 #if tab1
 
@@ -166,11 +166,32 @@ void lab2() {
 
     double s = 0.25, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
     int Nmax = 5000;
-    matrix x0(2, 1, -1.0), s_rosen(2, 1, s);
-    std::cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
-    solution::clear_calls();
-    std::cout << Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
+    matrix x0(2, new double[2]{1, 2}), s_rosen(2, 1, s);
+//    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
+//    solution::clear_calls();
+//    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
+
+
+
+    solution intervalHJ, intervalRosen;
+    ofstream HooksJeevesFileTab1;
+    ofstream RosenFileTab1;
+    HooksJeevesFileTab1.open("HooksJeevesFileTab1.csv", ofstream::out);
+    RosenFileTab1.open("RosenFileTab1.csv", ofstream::out);
+    solution HJSol, RosSol;
+    for (int i = 0; i < 100; i++) {
+        x0 = rand() % 200 + 1;
+        intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
+        HooksJeevesFileTab1 << x0 << ", " << intervalHJ.x << ", " << intervalHJ.y << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+
+        intervalRosen = Rosen(func_lab_2, x0, s, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+        RosenFileTab1 << x0 << ", " << intervalRosen.x << ", " << intervalRosen.y << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    HooksJeevesFileTab1.close();
+    RosenFileTab1.close();
 }
 
 void lab3() {
