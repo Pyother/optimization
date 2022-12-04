@@ -23,6 +23,7 @@ using namespace std;
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
+
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
 
 void simulation(matrix Da, matrix ud1, matrix ud2);
@@ -158,41 +159,15 @@ void lab1() {
 }
 
 void lab2() {
-    double s = 0.25,
-            alphaHJ = 0.25,
-            alphaR = 1.5,
-            beta = 0.125,
-            epsilon = 1e-8;
-    int Nmax = 1000;
+    matrix ud1 = matrix(), ud2 = matrix();
 
-    matrix ud1=matrix(),ud2=matrix();
+    double s = 0.25, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
+    int Nmax = 5000;
+    matrix x0(2, 1, -1.0), s_rosen(2, 1, s);
+    std::cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
+    solution::clear_calls();
+    std::cout << Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
-    matrix x0 = matrix(2, 1, -1.0);
-    //cout << x0;
-    solution::clear_calls();
-    cout << "HJ:\n" << endl;
-    solution sol1 = HJ(func_lab_2,x0,s,alphaHJ,epsilon,Nmax,ud1,ud2);
-    //if (sol == NULL) cout << "NULL";
-    cout << sol1 << endl;
-    solution::clear_calls();
-    matrix s0 = matrix(2, 1, s);
-
-    cout << "ROSEN\n" << endl;
-    solution sol2 = Rosen(func_lab_2, x0, s0, alphaR, beta, epsilon, Nmax,ud1,ud2);
-    cout << sol2 << endl;
-
-    //PROBLEM RZECZYWISTY
-    solution opt;
-    s = 2;
-    x0 = 10 * rand_mat(2, 1);
-    cout << x0 << endl << endl;
-    opt = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax,ud1,ud2);
-    cout << opt << endl << endl;
-    solution::clear_calls();
-    s0 = matrix(2, 1, s);
-    opt = Rosen(func_lab_2, x0, s0, alphaR, beta, epsilon, Nmax,ud1,ud2);
-    cout << opt << endl << endl;
-    solution::clear_calls();
 }
 
 void lab3() {

@@ -54,9 +54,28 @@ matrix Fr(matrix X, matrix ud1, matrix ud2) {
 }
 
 
+matrix ff2R(matrix x, matrix ud1, matrix ud2)
+{
+    matrix y;
+    matrix Y0(2, 1), Y_ref(2, new double[2]{ 3.14,0 });
+    matrix* Y = solve_ode(df2, 0, 0.1, 100, Y0, Y_ref, x);
+    int n = get_len(Y[0]);
+    y = 0;
+    for (int i = 0; i < n; ++i)
+        y = y + 10 * pow(Y_ref(0) - Y[1](i, 0), 2) +
+            pow(Y_ref(1) - Y[1](i, 1), 2) +
+            pow(x(0) * (Y_ref(0) - Y[1](i, 0)) + x(1) * (Y_ref(1) - Y[1](i, 1)), 2);
+    y = y * 0.1;
+    return y;
+}
 
-//matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
-//    matrix y;
-//    y=
-//    return y;
-//}
+
+matrix df2(double t, matrix Y, matrix ud1, matrix ud2)
+{
+    double mr = 1, mc = 5, l = 0.5, b = 0.5;
+    double I = mr * l * l / 3 + mc * l * l;
+    matrix dY(2, 1);
+    dY(0) = Y(1);
+    dY(1) = (ud2(0) * (ud1(0) - Y(0)) + ud2(1) * (ud1(1) - Y(1)) - b * Y(1)) / I;
+    return dY;
+}
