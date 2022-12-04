@@ -157,22 +157,20 @@ lag(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, dou
 }
 
 
-solution HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1, matrix ud2)
-{
-    try
-    {
+solution
+HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double epsilon, int Nmax, matrix ud1,
+   matrix ud2) {
+    try {
         solution XB, XB_old, X;
         XB.x = x0;
+        XB.flag=0;
         XB.fit_fun(ff, ud1, ud2);
-        while (true)
-        {
+        while (true) {
 
             X = HJ_trial(ff, XB, s, ud1, ud2);
             //cout << X.x(0) << " " << X.x(1) << endl;
-            if (X.y < XB.y)
-            {
-                while (true)
-                {
+            if (X.y < XB.y) {
+                while (true) {
                     XB_old = XB;
                     XB = X;
                     X.x = XB.x + XB.x - XB_old.x;
@@ -182,38 +180,40 @@ solution HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alp
                     if (X.y >= XB.y)
                         break;
                     if (XB.f_calls > Nmax)
-                        return XB;
+                        XB.flag = 1;
+                    return XB;
                 }
-            }
-            else
+            } else
                 s *= alpha;
-            if (XB.f_calls > Nmax || s < epsilon)
+            if (s < epsilon) {
+                XB.flag = 0;
                 return XB;
+            } else if (XB.f_calls > Nmax) {
+                XB.flag = 1;
+                return XB;
+            }
         }
 
     }
-    catch (string ex_info)
-    {
+    catch (string ex_info) {
         throw ("solution HJ(...):\n" + ex_info);
     }
 }
 
-solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2)
-{
-    try
-    {
+solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, matrix ud1, matrix ud2) {
+    try {
         //Tu wpisz kod funkcji
         int n = get_dim(XB);
         solution X;
+        X.flag=0;
         matrix d = ident_mat(n);
         for (int i = 0; i < n; i++) {
             X.x = XB.x + s * d[i];
-            X.fit_fun(ff,ud1,ud2);
+            X.fit_fun(ff, ud1, ud2);
             if (X.y < XB.y) {
                 XB = X;
-            }
-            else {
-                X.x = XB.x - s* d[i];
+            } else {
+                X.x = XB.x - s * d[i];
                 X.fit_fun(ff, ud1, ud2);
                 if (X.y < XB.y) {
                     XB = X;
@@ -224,16 +224,15 @@ solution HJ_trial(matrix(*ff)(matrix, matrix, matrix), solution XB, double s, ma
         }
         return XB;
     }
-    catch (string ex_info)
-    {
+    catch (string ex_info) {
         throw ("solution HJ_trial(...):\n" + ex_info);
     }
 }
 
-solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax, matrix ud1, matrix ud2)
-{
-    try
-    {
+solution
+Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax,
+      matrix ud1, matrix ud2) {
+    try {
         solution X(x0), Xt;
         int n = get_dim(X);
         matrix l(n, 1),
@@ -241,33 +240,26 @@ solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double
                 s(s0),
                 D = ident_mat(n);
         X.fit_fun(ff, ud1, ud2);
-        while (true)
-        {
-            for (int i = 0; i < n; ++i)
-            {
+        while (true) {
+            for (int i = 0; i < n; ++i) {
                 Xt.x = X.x + s(i) * D[i];
                 Xt.fit_fun(ff, ud1, ud2);
-                if (Xt.y < X.y)
-                {
+                if (Xt.y < X.y) {
                     X = Xt;
                     l(i) += s(i);
                     s(i) *= alpha;
-                }
-                else
-                {
+                } else {
                     ++p(i);
                     s(i) *= -beta;
                 }
             }
             bool change = true;
             for (int i = 0; i < n; ++i)
-                if (p(i) == 0 || l(i) == 0)
-                {
+                if (p(i) == 0 || l(i) == 0) {
                     change = false;
                     break;
                 }
-            if (change)
-            {
+            if (change) {
                 matrix Q(n, n), v(n, 1);
                 for (int i = 0; i < n; ++i)
                     for (int j = 0; j <= i; ++j)
@@ -275,8 +267,7 @@ solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double
                 Q = D * Q;
                 v = Q[0] / norm(Q[0]);
                 D.set_col(v, 0);
-                for (int i = 1; i < n; ++i)
-                {
+                for (int i = 1; i < n; ++i) {
                     matrix temp(n, 1);
                     for (int j = 0; j < i; ++j)
                         temp = temp + trans(Q[i]) * D[j] * D[j];
@@ -291,12 +282,16 @@ solution Rosen(matrix(*ff)(matrix, matrix, matrix), matrix x0, matrix s0, double
             for (int i = 1; i < n; ++i)
                 if (max_s < abs(s(i)))
                     max_s = abs(s(i));
-            if (max_s<epsilon || solution::f_calls>Nmax)
+            if (max_s < epsilon) {
+                X.flag = 0;
                 return X;
+            } else if (solution::f_calls > Nmax) {
+                X.flag = 1;
+                return X;
+            }
         }
     }
-    catch (string ex_info)
-    {
+    catch (string ex_info) {
         throw ("solution Rosen(...):\n" + ex_info);
     }
 }
@@ -317,8 +312,8 @@ pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc, double 
 
 solution
 sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, double beta, double gamma,
-       double delta=0.5,
-       double epsilon=0.0001, int Nmax=10000, matrix ud1, matrix ud2) {
+       double delta = 0.5,
+       double epsilon = 0.0001, int Nmax = 10000, matrix ud1, matrix ud2) {
     try {
 //        int n = get_len(x0);
 //        matrix D = ident_mat(n);
