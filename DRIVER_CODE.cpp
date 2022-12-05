@@ -12,6 +12,7 @@ Akademia Górniczo-Hutnicza
 #include <random>
 #include <cstdlib>
 #include <fstream>
+
 #include "libs/matrix.h"
 #include "libs/opt_alg.h"
 #include "libs/solution.h"
@@ -25,6 +26,7 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
+
 
 void simulation(matrix Da, matrix ud1, matrix ud2);
 
@@ -40,9 +42,12 @@ void lab5();
 
 void lab6();
 
+
 int main() {
     try {
-        lab2();
+        lab1();
+//        lab2();
+
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -101,7 +106,7 @@ void lab1() {
     //ekspansja- dobre wyniki inne przedzia³y
     int x0;
     d = 1, alpha = 3.342, Nmax = 1000;
-//
+
     double *interval = new double[2];
 #if tab1
 
@@ -161,13 +166,42 @@ void lab1() {
 void lab2() {
     matrix ud1 = matrix(), ud2 = matrix();
 
-    double s = 0.25, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
+    double s = 0.18, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
     int Nmax = 5000;
-    matrix x0(2, 1, -1.0), s_rosen(2, 1, s);
-    std::cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
-    solution::clear_calls();
-    std::cout << Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
+    matrix x0(2, new double[2]{1, 2});
+    matrix s_rosen(2, 1, s);
+//    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
+//    solution::clear_calls();
+//    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
+    printf("TABELA 1");
+    solution intervalHJ, intervalRosen;
+    ofstream HooksJeevesFileTab1;
+    ofstream RosenFileTab1;
+    HooksJeevesFileTab1.open("HooksJeevesFileTab1.csv", ofstream::out);
+    RosenFileTab1.open("RosenFileTab1.csv", ofstream::out);
+    solution HJSol, RosSol;
+    for (int i = 0; i < 100; i++) {
+        std::default_random_engine rnd1{std::random_device{}()};
+        std::uniform_real_distribution<double> dist(-1, 1);
+        double r1 = dist(rnd1);
+        std::default_random_engine rnd2{std::random_device{}()};
+        std::uniform_real_distribution<double> dist2(-1, 1);
+        double r2 = dist(rnd2);
+        x0 = matrix(2, new double [2] {r1, r2});
+
+        intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
+        HooksJeevesFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalHJ.x(0) << ", " << intervalHJ.x(1) << ", "
+                << intervalHJ.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+
+        intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+        RosenFileTab1 << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
+                            << intervalRosen.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    HooksJeevesFileTab1.close();
+    RosenFileTab1.close();
 }
 
 void lab3() {
@@ -191,13 +225,9 @@ void lab6() {
 }
 
 // ##########################################
-// LAB1 - mathematical functions
 // ##########################################
-//
-//
-// PLIK opt_algo.cpp
-//
-//
+// Mathematical functions for LABs
+// ##########################################
 // ##########################################
 matrix func_lab_1(matrix x, matrix ud1, matrix ud2) {
     return -cos(0.1 * x()) * exp(-pow(0.1 * x() - 2 * 3.14, 2)) + 0.002 * pow(0.1 * x(), 2);
@@ -240,5 +270,5 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
     cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
 }
 
-
+// ##########################################
 // ##########################################
