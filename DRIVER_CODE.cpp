@@ -166,12 +166,11 @@ void lab2() {
 
     double s = 0.25, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
     int Nmax = 5000;
-    matrix x0(2, new double[2]{1, 2}), s_rosen(2, 1, s);
+    matrix x0(2, new double[2]{1, 2});
+    matrix s_rosen(2, 1, s);
 //    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
 //    solution::clear_calls();
 //    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
-
-
 
 
     solution intervalHJ, intervalRosen;
@@ -181,12 +180,20 @@ void lab2() {
     RosenFileTab1.open("RosenFileTab1.csv", ofstream::out);
     solution HJSol, RosSol;
     for (int i = 0; i < 100; i++) {
-        x0 = rand() % 200 + 1;
+        std::default_random_engine rnd1{std::random_device{}()};
+        std::uniform_real_distribution<double> dist(-2, 2);
+        double r1 = dist(rnd1);
+        std::default_random_engine rnd2{std::random_device{}()};
+        std::uniform_real_distribution<double> dist2(-2, 2);
+        double r2 = dist(rnd2);
+
+        x0 = matrix(2, new double [2] {r1, r2});
+
         intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
         HooksJeevesFileTab1 << x0 << ", " << intervalHJ.x << ", " << intervalHJ.y << ", " << solution::f_calls << endl;
         solution::clear_calls();
 
-        intervalRosen = Rosen(func_lab_2, x0, s, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+        intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
         RosenFileTab1 << x0 << ", " << intervalRosen.x << ", " << intervalRosen.y << ", " << solution::f_calls << endl;
         solution::clear_calls();
     }
