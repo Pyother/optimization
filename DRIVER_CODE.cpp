@@ -166,7 +166,7 @@ void lab1() {
 void lab2() {
     matrix ud1 = matrix(), ud2 = matrix();
 
-    double s = 0.25, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
+    double s = 0.18, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
     int Nmax = 5000;
     matrix x0(2, new double[2]{1, 2});
     matrix s_rosen(2, 1, s);
@@ -194,28 +194,14 @@ void lab2() {
         HooksJeevesFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalHJ.x(0) << ", " << intervalHJ.x(1) << ", "
                 << intervalHJ.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
+
         intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
-        RosenFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
+        RosenFileTab1 << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
                             << intervalRosen.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
     }
     HooksJeevesFileTab1.close();
     RosenFileTab1.close();
-
-//    printf("TABELA 2");
-//    matrix ab_F(1, 1, 200);
-//    solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
-//    cout << endl << endl;
-//    cout << "HJ: " << endl;
-//    cout << opt_f;
-//    cout << "ab_HJ = " << endl << ab_F << endl;
-//    cout << endl << endl;
-//
-//    matrix ab_L(1, 1, 200);
-//    solution opt_l = lag(func_lab_1, interval[0], interval[1], epsilon, gamma, 1000);
-//    cout << "Rosen: " << endl;
-//    cout << opt_l;
-//    cout << "ab_Rosen = " << endl << ab_L << endl;
 }
 
 void lab3() {
