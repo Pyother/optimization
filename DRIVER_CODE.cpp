@@ -45,7 +45,9 @@ void lab6();
 
 int main() {
     try {
+//        lab1();
         lab2();
+
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -172,7 +174,7 @@ void lab2() {
 //    solution::clear_calls();
 //    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
-
+    printf("TABELA 1");
     solution intervalHJ, intervalRosen;
     ofstream HooksJeevesFileTab1;
     ofstream RosenFileTab1;
@@ -186,19 +188,34 @@ void lab2() {
         std::default_random_engine rnd2{std::random_device{}()};
         std::uniform_real_distribution<double> dist2(-1, 1);
         double r2 = dist(rnd2);
-
         x0 = matrix(2, new double [2] {r1, r2});
 
         intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
-        HooksJeevesFileTab1 << x0 << ", " << intervalHJ.x << ", " << intervalHJ.y << ", " << solution::f_calls << endl;
+        HooksJeevesFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalHJ.x(0) << ", " << intervalHJ.x(1) << ", "
+                << intervalHJ.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
-
         intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
-        RosenFileTab1 << x0 << ", " << intervalRosen.x << ", " << intervalRosen.y << ", " << solution::f_calls << endl;
+        RosenFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
+                            << intervalRosen.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
     }
     HooksJeevesFileTab1.close();
     RosenFileTab1.close();
+
+//    printf("TABELA 2");
+//    matrix ab_F(1, 1, 200);
+//    solution opt_f = fib(func_lab_1, interval[0], interval[1], epsilon);
+//    cout << endl << endl;
+//    cout << "HJ: " << endl;
+//    cout << opt_f;
+//    cout << "ab_HJ = " << endl << ab_F << endl;
+//    cout << endl << endl;
+//
+//    matrix ab_L(1, 1, 200);
+//    solution opt_l = lag(func_lab_1, interval[0], interval[1], epsilon, gamma, 1000);
+//    cout << "Rosen: " << endl;
+//    cout << opt_l;
+//    cout << "ab_Rosen = " << endl << ab_L << endl;
 }
 
 void lab3() {
