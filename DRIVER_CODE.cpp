@@ -181,10 +181,10 @@ void lab2() {
     solution HJSol, RosSol;
     for (int i = 0; i < 100; i++) {
         std::default_random_engine rnd1{std::random_device{}()};
-        std::uniform_real_distribution<double> dist(-2, 2);
+        std::uniform_real_distribution<double> dist(-1, 1);
         double r1 = dist(rnd1);
         std::default_random_engine rnd2{std::random_device{}()};
-        std::uniform_real_distribution<double> dist2(-2, 2);
+        std::uniform_real_distribution<double> dist2(-1, 1);
         double r2 = dist(rnd2);
 
         x0 = matrix(2, new double [2] {r1, r2});
