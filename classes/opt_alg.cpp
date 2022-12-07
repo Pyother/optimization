@@ -179,9 +179,10 @@ HJ(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, doubl
                     X = HJ_trial(ff, X, s, ud1, ud2);
                     if (X.y >= XB.y)
                         break;
-                    if (XB.f_calls > Nmax)
+                    if (XB.f_calls > Nmax) {
                         XB.flag = 1;
-                    return XB;
+                        return XB;
+                    }
                 }
             } else
                 s *= alpha;
