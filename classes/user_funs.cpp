@@ -61,7 +61,7 @@ matrix ff2R(matrix x, matrix ud1, matrix ud2)
     matrix* Y = solve_ode(df2, 0, 0.1, 100, Y0, Y_ref, x);
     int n = get_len(Y[0]);
     y = 0;
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
         y = y + 10 * pow(Y_ref(0) - Y[1](i, 0), 2) +
             pow(Y_ref(1) - Y[1](i, 1), 2) +
             pow(x(0) * (Y_ref(0) - Y[1](i, 0)) + x(1) * (Y_ref(1) - Y[1](i, 1)), 2);
@@ -72,10 +72,28 @@ matrix ff2R(matrix x, matrix ud1, matrix ud2)
 
 matrix df2(double t, matrix Y, matrix ud1, matrix ud2)
 {
-    double mr = 1, mc = 5, l = 0.5, b = 0.5;
+    double mr = 1, mc = 9, l = 0.5, b = 0.5;
     double I = mr * l * l / 3 + mc * l * l;
     matrix dY(2, 1);
     dY(0) = Y(1);
     dY(1) = (ud2(0) * (ud1(0) - Y(0)) + ud2(1) * (ud1(1) - Y(1)) - b * Y(1)) / I;
     return dY;
 }
+
+
+//matrix Fr3(matrix X, matrix ud1, matrix ud2) {
+//
+//    matrix Y0 = matrix(4, new double[4]{0, X(0), 100,0});
+//    matrix *Y = solve_ode(df3, 0, 1,1000, Y0, ud1, X);
+//
+//    int len = get_len(Y[0]);
+//    double max = Y[1](0, 2);
+//    for (int i = 0; i < len; i++)
+//        if (max < Y[1](i, 2))
+//            max = Y[1](i, 2);
+//    double y = abs(max - 50);
+//    return y;
+//}
+//
+//
+//F
