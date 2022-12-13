@@ -45,8 +45,9 @@ void lab6();
 
 int main() {
     try {
-        lab1();
-//        lab2();
+//        lab1();
+        lab2();
+//        lab3();
 
     }
     catch (string EX_INFO) {
@@ -164,52 +165,69 @@ void lab1() {
 }
 
 void lab2() {
-    matrix ud1 = matrix(), ud2 = matrix();
+    matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
 
-    double s = 0.18, epsilon = 1e-8, alphaHJ = 0.25, alphaRosen = 1.5, beta = 0.125;
-    int Nmax = 5000;
-    matrix x0(2, new double[2]{1, 2});
+    double s = 0.2, epsilon = 1e-5, alphaHJ = 0.5, alphaRosen = 2, beta = 0.5;
+    int Nmax = 1000;
+    matrix x0(2, new double[2]{2, 2});
     matrix s_rosen(2, 1, s);
 //    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
 //    solution::clear_calls();
 //    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
-    printf("TABELA 1");
-    solution intervalHJ, intervalRosen;
-    ofstream HooksJeevesFileTab1;
-    ofstream RosenFileTab1;
-    HooksJeevesFileTab1.open("HooksJeevesFileTab1.csv", ofstream::out);
-    RosenFileTab1.open("RosenFileTab1.csv", ofstream::out);
-    solution HJSol, RosSol;
-    for (int i = 0; i < 100; i++) {
-        std::default_random_engine rnd1{std::random_device{}()};
-        std::uniform_real_distribution<double> dist(-1, 1);
-        double r1 = dist(rnd1);
-        std::default_random_engine rnd2{std::random_device{}()};
-        std::uniform_real_distribution<double> dist2(-1, 1);
-        double r2 = dist(rnd2);
-        x0 = matrix(2, new double [2] {r1, r2});
+//    printf("TABELA 1");
+//    solution intervalHJ, intervalRosen;
+//    ofstream HooksJeevesFileTab1;
+//    ofstream RosenFileTab1;
+//    HooksJeevesFileTab1.open("HooksJeevesFileTab1.csv", ofstream::out);
+//    RosenFileTab1.open("RosenFileTab1.csv", ofstream::out);
+//    solution HJSol, RosSol;
+//    for (int i = 0; i < 100; i++) {
+//        std::default_random_engine rnd1{std::random_device{}()};
+//        std::uniform_real_distribution<double> dist(-1, 1);
+//        double r1 = dist(rnd1);
+//        std::default_random_engine rnd2{std::random_device{}()};
+//        std::uniform_real_distribution<double> dist2(-1, 1);
+//        double r2 = dist(rnd2);
+//        x0 = matrix(2, new double [2] {r1, r2});
+//
+//        intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
+//        HooksJeevesFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalHJ.x(0) << ", " << intervalHJ.x(1) << ", "
+//                << intervalHJ.y(0) << ", " << solution::f_calls << endl;
+//        solution::clear_calls();
+//
+//        intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+//        RosenFileTab1 << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
+//                            << intervalRosen.y(0) << ", " << solution::f_calls << endl;
+//        solution::clear_calls();
+//    }
+//    HooksJeevesFileTab1.close();
+//    RosenFileTab1.close();
+printf("\n\n\n");
+solution rosenSol=Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+    cout << rosenSol;
+solution::clear_calls();
+solution hjSol=HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
+    cout << hjSol;
 
-        intervalHJ = HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
-        HooksJeevesFileTab1 << x0(0) << ", "  << x0(1) << ", " << intervalHJ.x(0) << ", " << intervalHJ.x(1) << ", "
-                << intervalHJ.y(0) << ", " << solution::f_calls << endl;
-        solution::clear_calls();
 
-        intervalRosen = Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
-        RosenFileTab1 << intervalRosen.x(0) << ", " << intervalRosen.x(1) << ", "
-                            << intervalRosen.y(0) << ", " << solution::f_calls << endl;
-        solution::clear_calls();
-    }
-    HooksJeevesFileTab1.close();
-    RosenFileTab1.close();
+//
+    matrix Y0(2, 1), Y_ref(2, new double[2]{ 3.14,0 });
+    matrix* Y = solve_ode(df2, 0, 0.1, 100, Y0, Y_ref, rosenSol.x);
+    ofstream HJFileTabSim;
+    HJFileTabSim.open("HJFileTabSim.csv", ofstream::out);
+    HJFileTabSim<<Y[1]<<endl;
+    HJFileTabSim.close();
 }
 
 void lab3() {
-//solution simp;
-//matrix x=matrix(2,new double[2]{-3,2}),ud1,ud2;
-//double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
-//simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
-//cout<<simp.x<<" " <<simp.y <<" " <<endl;
+solution simp;
+matrix x=matrix(2,new double[2]{-3,2}),ud1,ud2;
+double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
+simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
+
+    cout<<simp.x<<" " <<simp.y <<" " <<endl;
+
 }
 
 void lab4() {
@@ -268,6 +286,10 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
     solution::clear_calls();
     fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
     cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
+
+
+
+
 }
 
 // ##########################################
