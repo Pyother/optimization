@@ -314,7 +314,7 @@ solution pen(matrix(*ff)(matrix, matrix, matrix), matrix x0, double c, double dc
     solution X(x0), X1;
     matrix c0(2, new double[2]{c, dc});
     while (true) {
-        X1 = sym_NM(ff, X.x, s, alpha, beta, gamma, delta, epsilon, Nmax, ud1, ud2);//ud2=c0?
+        X1 = sym_NM(ff, X.x, s, alpha, beta, gamma, delta, epsilon, Nmax, ud1, c0(0)); //ud2=c0?
         if (solution::f_calls > Nmax || norm(X.x - X1.x) < epsilon)
             return X1;
         c0(0) *= dc;

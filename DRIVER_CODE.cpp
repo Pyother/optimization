@@ -282,24 +282,28 @@ void lab3() {
     matrix x0wew(2, new double[2]{1, 2});
     for (int i = 0; i < 100; i++){
         std::default_random_engine random1{std::random_device{}()};
-        std::uniform_real_distribution<double> v1(-10, 10);
+        std::uniform_real_distribution<double> v1(-1, 1);
         double val1 = v1(random1);
         std::default_random_engine random2{std::random_device{}()};
-        std::uniform_real_distribution<double> v2(-10, 10);
+        std::uniform_real_distribution<double> v2(-1, 1);
         double val2 = v2(random2);
         x0zew = matrix(2, new double [2] {val1, val2});
         solution pen_func_z = pen(fT3, x0zew, c, dcz, epsilon, Nmax, ud1, ud2);
 //        zew_penalty << pen_func_z;
+        double rz = sqrt((pow(val1 - x0zew(0), 2)) - (pow(val2 - x0zew(1)), 2));
+        cout << rz << endl;
         zew_penalty << "a,  " << x0zew(0) << ", " << x0zew(1) << ", " << pen_func_z.x(0) << ", " << pen_func_z.x(1) << ", "
-                    << pen_func_z.y(0) << ", " << solution::f_calls << endl;
+                    << pen_func_z.y(0) << ", " << solution::f_calls << ", " << rz<< endl;
         solution::clear_calls();
 
-        x0wew = matrix(2, new double [2] {val1, val2});
-        solution pen_func_w = pen(fT3, x0wew, c, dcw, epsilon, Nmax, ud1, ud2);
-//        wew_penalty << pen_func_z;
-        wew_penalty << "b,  " << x0wew(0) << ", " << x0wew(1) << ", " << pen_func_w.x(0) << ", " << pen_func_w.x(1) << ", "
-                    << pen_func_w.y(0) << ", " << solution::f_calls << endl;
-        solution::clear_calls();
+
+//        x0wew = matrix(2, new double [2] {val1, val2});
+//        solution pen_func_w = pen(fT3, x0wew, c, dcw, epsilon, Nmax, ud1, ud2);
+////        wew_penalty << pen_func_z;
+//        double rw = sqrt((pow(val1 - x0wew(0), 2)) - (pow(val2 - x0wew(1)), 2));
+//        wew_penalty << "b,  " << x0wew(0) << ", " << x0wew(1) << ", " << pen_func_w.x(0) << ", " << pen_func_w.x(1) << ", "
+//                    << pen_func_w.y(0) << ", " << solution::f_calls<< ", " << rw << endl;
+//        solution::clear_calls();
     }
     zew_penalty.close();
     wew_penalty.close();
