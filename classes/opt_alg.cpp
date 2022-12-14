@@ -1,4 +1,5 @@
 #include"../libs/opt_alg.h"
+#include"../libs/matrix.h"
 
 double *
 expansion(matrix(ff)(matrix, matrix, matrix), double x0, double d, double alpha, int Nmax, matrix ud1, matrix ud2) {
@@ -388,10 +389,38 @@ SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), mat
    double epsilon,
    int Nmax, matrix ud1, matrix ud2) {
     try {
-        solution Xopt;
-        //Tu wpisz kod funkcji
-
-        return Xopt;
+//        solution Xopt;
+//        int n= get_len(x0);
+//        solution X0,X1;
+//        X0.x=x0;
+//        Xopt.flag=0;
+//        matrix d(n,1),P(n,2);
+//        solution h;
+//        double *ab;
+//        while(true){
+//            d=-X0.grad(gf,ud1,ud2);
+//            if(h0<0){
+//                P.set_col(X0.x,0);
+//                P.set_col(d,1);
+//                ab=golden(ff,ab[0],ab[1],epsilon,Nmax,ud1,ud2);
+//                X1.x=X0.x+h.x*d;
+//
+//            }
+//            X1.x=X0.x+h0*d;
+//            if(norm(X1.x-X0.x)<epsilon){
+//                break;
+//                Xopt=X1;
+//            }
+//            if(solution::f_calls>Nmax||){
+//                Xopt.flag=1;
+//                break;
+//
+//            }
+//            X0=X1;
+//        }
+//        //Tu wpisz kod funkcji
+//
+//        return Xopt;
     }
     catch (string ex_info) {
         throw ("solution SD(...):\n" + ex_info);

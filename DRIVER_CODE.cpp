@@ -1,10 +1,10 @@
 /*********************************************
-Kod stanowi uzupe³nienie materia³ów do æwiczeñ
+Kod stanowi uzupeÂ³nienie materiaÂ³Ã³w do Ã¦wiczeÃ±
 w ramach przedmiotu metody optymalizacji.
-Kod udostêpniony na licencji CC BY-SA 3.0
-Autor: dr in¿. £ukasz Sztangret
+Kod udostÃªpniony na licencji CC BY-SA 3.0
+Autor: dr inÂ¿. Â£ukasz Sztangret
 Katedra Informatyki Stosowanej i Modelowania
-Akademia Górniczo-Hutnicza
+Akademia GÃ³rniczo-Hutnicza
 *********************************************/
 #include <iostream>
 #include <cmath>
@@ -26,6 +26,7 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
+matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2);
 
 
 void simulation(matrix Da, matrix ud1, matrix ud2);
@@ -46,9 +47,8 @@ void lab6();
 int main() {
     try {
 //        lab1();
-        lab2();
-//        lab3();
-
+//        lab2();
+        lab3();
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -104,7 +104,7 @@ void lab1() {
     Y[1] = 1;
     Y[2] = 1;
 //    matrix ud2;
-    //ekspansja- dobre wyniki inne przedzia³y
+    //ekspansja- dobre wyniki inne przedziaÂ³y
     int x0;
     d = 1, alpha = 3.342, Nmax = 1000;
 
@@ -159,7 +159,7 @@ void lab1() {
 //    cout << fibSol.x << endl << fibSol.y << endl;
 
 
-    //Lagrange- ok ale wiêcej wywo³añ funkcji (niepotrzebne wywo³ania?)
+    //Lagrange- ok ale wiÃªcej wywoÂ³aÃ± funkcji (niepotrzebne wywoÂ³ania?)
 //    lagSol=lag(func_lab_1,-10,1,0.0001,0.0000001,1000);
 //    cout<<"("<<lagSol.x<<","<<lagSol.y<<") "<<"calls: "<<lagSol.f_calls<<" flag: "<<lagSol.flag<<endl;
 }
@@ -169,7 +169,7 @@ void lab2() {
 
     double s = 0.2, epsilon = 1e-5, alphaHJ = 0.5, alphaRosen = 2, beta = 0.5;
     int Nmax = 1000;
-    matrix x0(2, new double[2]{2, 2});
+    matrix x0(2, new double[2]{0, 0});
     matrix s_rosen(2, 1, s);
 //    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
 //    solution::clear_calls();
@@ -227,6 +227,38 @@ double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
 simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
 
     cout<<simp.x<<" " <<simp.y <<" " <<endl;
+    
+   // matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
+    matrix x0(2, new double[2]{1, 2});
+    std::ofstream S("lab_3.csv");
+    double c = 1, dc = 0.2, epsilon = 1e-3;
+    int Nmax = 10000;
+    matrix a = 5;
+    S << "X0" << ";" << " " << "X1" << std::endl << std::endl;
+
+    S << "Sym_MN dc 0.2 " << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3_test,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << x0(0) << ", "  << x0(1) << ", " << test.x(0) << ", " << test.x(1) << ", "
+                << test.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    dc = 2;
+    S << "Sym_MN dc 2" << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << test;
+        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution::clear_calls();
+    }
+    S.close();
+
 
 }
 
@@ -258,6 +290,9 @@ matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2) {
     return (sin(3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)))) /
            (3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)));
+}
+matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
+    return pow(x(0)-3,2)+pow(x(1)-3,2);
 }
 
 
