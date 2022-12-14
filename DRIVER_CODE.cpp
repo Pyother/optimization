@@ -26,6 +26,7 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
+matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2);
 
 
 void simulation(matrix Da, matrix ud1, matrix ud2);
@@ -169,7 +170,7 @@ void lab2() {
 
     double s = 0.2, epsilon = 1e-5, alphaHJ = 0.5, alphaRosen = 2, beta = 0.5;
     int Nmax = 1000;
-    matrix x0(2, new double[2]{2, 2});
+    matrix x0(2, new double[2]{0, 0});
     matrix s_rosen(2, 1, s);
 //    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
 //    solution::clear_calls();
@@ -228,7 +229,7 @@ simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
 
     cout<<simp.x<<" " <<simp.y <<" " <<endl;
    // matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
-    matrix x0(2, new double[2]{0, -2});
+    matrix x0(2, new double[2]{1, 2});
     std::ofstream S("lab_3.csv");
     double c = 1, dc = 0.2, epsilon = 1e-3;
     int Nmax = 10000;
@@ -240,9 +241,9 @@ simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
       " " << "f_calls*" << ";" << " " << "r" << std::endl;
     for (int i = 0; i < 100; i++)
     {
-        solution test = pen(func_lab_3,x0, c, dc, epsilon, Nmax, ud1,ud2);
-        S << test;
-        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution test = pen(func_lab_3_test,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << x0(0) << ", "  << x0(1) << ", " << test.x(0) << ", " << test.x(1) << ", "
+                << test.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
     }
     dc = 2;
@@ -288,6 +289,9 @@ matrix func_lab_2(matrix x, matrix ud1, matrix ud2) {
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2) {
     return (sin(3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)))) /
            (3.14 * sqrt(pow(x(0) / 3.14, 2) + pow(x(1) / 3.14, 2)));
+}
+matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
+    return pow(x(0)-3,2)+pow(x(1)-3,2);
 }
 
 
