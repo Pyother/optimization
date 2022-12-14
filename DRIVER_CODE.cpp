@@ -46,8 +46,8 @@ void lab6();
 int main() {
     try {
 //        lab1();
-        lab2();
-//        lab3();
+//        lab2();
+        lab3();
 
     }
     catch (string EX_INFO) {
@@ -227,6 +227,36 @@ double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
 simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
 
     cout<<simp.x<<" " <<simp.y <<" " <<endl;
+   // matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
+    matrix x0(2, new double[2]{0, -2});
+    std::ofstream S("lab_3.csv");
+    double c = 1, dc = 0.2, epsilon = 1e-3;
+    int Nmax = 10000;
+    matrix a = 5;
+    S << "X0" << ";" << " " << "X1" << std::endl << std::endl;
+
+    S << "Sym_MN dc 0.2 " << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << test;
+        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution::clear_calls();
+    }
+    dc = 2;
+    S << "Sym_MN dc 2" << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << test;
+        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution::clear_calls();
+    }
+    S.close();
 
 }
 
