@@ -68,8 +68,8 @@ matrix ff2R(matrix x, matrix ud1, matrix ud2) {
     return y;
 }
 
-
 matrix df2(double t, matrix Y, matrix ud1, matrix ud2) {
+
     double mr = 1, mc = 9, l = 0.5, b = 0.5;
     double I = mr * l * l / 3 + mc * l * l;
     matrix dY(2, 1);
@@ -77,6 +77,7 @@ matrix df2(double t, matrix Y, matrix ud1, matrix ud2) {
     dY(1) = (ud2(0) * (ud1(0) - Y(0)) + ud2(1) * (ud1(1) - Y(1)) - b * Y(1)) / I;
     return dY;
 }
+
 
 matrix df3(double t, matrix Y, matrix ud1, matrix ud2) {
     double c=0.47, r=0.12, m=0.6, r0=1.2, g=9.81;
@@ -146,3 +147,4 @@ matrix Fr3(matrix X, matrix ud1, matrix ud2) {
 //    if(norm(ud2(0,0)))
 //        y=pow()
 //}
+
