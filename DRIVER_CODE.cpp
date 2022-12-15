@@ -272,13 +272,13 @@ void lab3() {
     zew_penalty.open("zew_penalty.csv", ofstream::out);
     wew_penalty.open("wew_penalty.csv", ofstream::out);
 
-    ud1 = 4;
+    ud1 = 5;
     double dcz = 2, dcw = 0.2;
 
     zew_penalty << "x0zew(0)" << ", " << "x0zew(1)" << ", " << "test.x(0)" << ", " << "test.x(1)" << ", "
-            << "rz" << "test.y(0)" << ", " << "solution::f_calls" << endl;
+            << "rz" << ", " << "test.y(0)" << ", " << "solution::f_calls" << endl;
     wew_penalty << "x0zew(0)" << ", " << "x0zew(1)" << ", " << "test.x(0)" << ", " << "test.x(1)" << ", "
-            << "rw" << "test.y(0)" << ", " << "solution::f_calls" << endl;
+            << "rw" << ", " << "test.y(0)" << ", " << "solution::f_calls" << endl;
     matrix x0wew(2, new double[2]{1, 2});
     for (int i = 0; i < 100; i++){
         std::default_random_engine random1{std::random_device{}()};
@@ -293,7 +293,7 @@ void lab3() {
 
         double rz = sqrt((pow(pen_func_z.x(0) - 0, 2)) + (pow(pen_func_z.x(1) - 0), 2));
 
-        zew_penalty << "a,  " << x0zew(0) << ", " << x0zew(1) << ", " << pen_func_z.x(0) << ", " << pen_func_z.x(1) << ", "
+        zew_penalty << x0zew(0) << ", " << x0zew(1) << ", " << pen_func_z.x(0) << ", " << pen_func_z.x(1) << ", "
                 << rz << ", "  << pen_func_z.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
 
@@ -302,7 +302,7 @@ void lab3() {
         solution pen_func_w = pen(fT3, x0wew, c, dcw, epsilon, Nmax, ud1, ud2);
 //        wew_penalty << pen_func_z;
         double rw = sqrt((pow(pen_func_z.x(0) - 0, 2)) + (pow(pen_func_z.x(1) - 0), 2));
-        wew_penalty << "b,  " << x0wew(0) << ", " << x0wew(1) << ", " << pen_func_w.x(0) << ", " << pen_func_w.x(1) << ", "
+        wew_penalty << x0wew(0) << ", " << x0wew(1) << ", " << pen_func_w.x(0) << ", " << pen_func_w.x(1) << ", "
                  << rw << ", " << pen_func_w.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
     }
