@@ -18,3 +18,6 @@ matrix df2(double t, matrix Y, matrix ud1, matrix ud2);
 matrix df3(double t, matrix Y, matrix ud1, matrix ud2);
 
 matrix Fr3(matrix X, matrix ud1, matrix ud2);
+
+matrix fT3(matrix x, matrix ud1, matrix ud2);
+

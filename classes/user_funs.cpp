@@ -120,7 +120,6 @@ matrix Fr3(matrix X, matrix ud1, matrix ud2) {
     matrix Y0 = matrix(4, new double[4]{0, X(0), 100, 0});
     matrix *Y = solve_ode(df3, 0, 0.01, 7, Y0, ud1, X(1));
 
-
     int n = get_len(Y[0]);
     int i50 = 0, i0 = 0;
     for (int i = 0; i < n; i++) {
