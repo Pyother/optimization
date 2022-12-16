@@ -297,6 +297,55 @@ void lab3() {
                 << rz << ", "  << pen_func_z.y(0) << ", " << solution::f_calls << endl;
         solution::clear_calls();
 
+    cout<<simp.x<<" " <<simp.y <<" " <<endl;
+    
+   // matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
+    matrix x0(2, new double[2]{1, 2});
+    std::ofstream S("lab_3.csv");
+    double c = 1, dc = 0.2, epsilon = 1e-3;
+    int Nmax = 10000;
+    matrix a = 5;
+    S << "X0" << ";" << " " << "X1" << std::endl << std::endl;
+
+    S << "Sym_MN dc 0.2 " << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3_test,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << x0(0) << ", "  << x0(1) << ", " << test.x(0) << ", " << test.x(1) << ", "
+                << test.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    dc = 2;
+    S << "Sym_MN dc 2" << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(func_lab_3,x0, c, dc, epsilon, Nmax, ud1,ud2);
+        S << test;
+        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution::clear_calls();
+    }
+    S.close();
+
+
+
+
+
+
+//    matrix x0real(2, new double[2]{-5,0});
+//    solution rozwiazanie = pen(Fr3,x0real, 2, 2, 1.e-3, 5000,ud1,ud2);
+//    cout << rozwiazanie << endl;
+
+    ofstream symFile;
+    symFile.open("sym3File.csv", ofstream::out);
+    matrix Y0 = matrix(4, new double[4]{0, -3.45, 100, 0});
+    matrix* Y= solve_ode(df3,0 , 0.01, 7, Y0, matrix(24.9));
+    symFile<<Y[1];
+    symFile.close();
+
 
         x0wew = matrix(2, new double [2] {val1, val2});
         solution pen_func_w = pen(fT3, x0wew, c, dcw, epsilon, Nmax, ud1, ud2);
@@ -308,6 +357,7 @@ void lab3() {
     }
     zew_penalty.close();
     wew_penalty.close();
+
 }
 
 void lab4() {
@@ -369,7 +419,6 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
     solution::clear_calls();
     fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
     cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-
 
 
 
