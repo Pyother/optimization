@@ -572,7 +572,7 @@ ostream& operator<<(ostream& OS, const matrix& A)
 			p = S.find('.');
 			if (p != string::npos)
 				S[p] = SEP_SYMBOL;
-			OS << S << ", ";
+			OS << S << "; ";
 		}
 		if (i == nA[0] - 1)
 			return OS;

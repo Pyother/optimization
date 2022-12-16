@@ -260,6 +260,20 @@ simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
     S.close();
 
 
+
+
+
+
+//    matrix x0real(2, new double[2]{-5,0});
+//    solution rozwiazanie = pen(Fr3,x0real, 2, 2, 1.e-3, 5000,ud1,ud2);
+//    cout << rozwiazanie << endl;
+
+    ofstream symFile;
+    symFile.open("sym3File.csv", ofstream::out);
+    matrix Y0 = matrix(4, new double[4]{0, -3.45, 100, 0});
+    matrix* Y= solve_ode(df3,0 , 0.01, 7, Y0, matrix(24.9));
+    symFile<<Y[1];
+    symFile.close();
 }
 
 void lab4() {
@@ -321,7 +335,6 @@ void simulation(matrix Da, matrix ud1, matrix ud2) {
     solution::clear_calls();
     fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
     cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-
 
 
 
