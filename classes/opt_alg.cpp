@@ -467,10 +467,37 @@ CG(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), mat
    double epsilon,
    int Nmax, matrix ud1, matrix ud2) {
     try {
-        solution Xopt;
-        //Tu wpisz kod funkcji
-
-        return Xopt;
+        int n = get_len(x0);
+        solution Xopt, Xopt1;
+        Xopt.x = x0;
+        matrix d(n, 1), *P = new matrix[2];
+        solution h;
+        double *ab, beta;
+        Xopt.grad();
+        d = -Xopt.g;
+        while (true) {
+            if (h0 < 0) {
+                P[0] = Xopt.x;
+                P[1] = d;
+                ab = expansion();
+                h = golden();
+                Xopt1.x = Xopt.x + h.x * d;
+            } else
+                Xopt1.x = Xopt.x + h0 * d;
+#if LAB_NO == 5 && LAB_PART == 2
+            ud->add_row(trans(X1.x));
+#endif
+            if (norm(Xopt1.x - Xopt.x) < epsilon || solution::f_calls > Nmax ||
+                solution::g_calls > Nmax) {
+                Xopt1.fit_fun();
+                return Xopt1;
+            }
+            Xopt1.grad();
+            // betda do okreslania kolejnych wartosci kierunku
+            beta = pow(norm(Xopt1.g), 2) / pow(norm(Xopt.g), 2);
+            d = -Xopt1.g + beta * d;
+            Xopt = Xopt1;
+        }
     }
     catch (string ex_info) {
         throw ("solution CG(...):\n" + ex_info);
@@ -525,18 +552,18 @@ solution Newton(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix,
         throw ("solution Newton(...):\n" + ex_info);
     }
 }
-solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
-            matrix *ad) {
+solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
+                matrix *ad) {
     int n = get_len(x0);
     solution X, X1;
     X.x = x0;
     matrix d(n, 1), *P = new matrix[2];
     solution h;
-    double *ab, beta;
-    X.grad();
-    //d0 jest rowne gradientowi
-    d = -X.g;
+    double *ab;
     while (true) {
+        X.grad();
+        X.hess();
+        d = -inv(X.H) * X.g;
         if (h0 < 0) {
             P[0] = X.x;
             P[1] = d;
@@ -548,15 +575,11 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
 #if LAB_NO == 5 && LAB_PART == 2
         ud->add_row(trans(X1.x));
 #endif
-        if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax ||
+        if (norm(X.x - X1.x) < epsilon || solution::f_calls > Nmax ||
             solution::g_calls > Nmax) {
             X1.fit_fun(ud);
             return X1;
         }
-        X1.grad();
-        // betda do okreslania kolejnych wartosci kierunku
-        beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
-        d = -X1.g + beta * d;
         X = X1;
     }
 }
