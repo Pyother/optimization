@@ -384,12 +384,13 @@ sym_NM(matrix(*ff)(matrix, matrix, matrix), matrix x0, double s, double alpha, d
     }
 }
 
-
+// #####################################################################################################################
 solution
 SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0,
    double epsilon,
    int Nmax, matrix ud1, matrix ud2) {
     try {
+
 //        solution Xopt;
 //        int n= get_len(x0);
 //        solution X0,X1;
@@ -427,6 +428,39 @@ SD(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), mat
         throw ("solution SD(...):\n" + ex_info);
     }
 }
+solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
+            matrix *ad) {
+    int n = get_len(x0); //rozmiar problemu
+    solution X, X1;
+    X.x = x0; // pkt startowy
+    matrix d(n, 1); // kierunek
+    matrix *P = new matrix[2]; //[0] - x, [1] - d
+    solution h; //dl kroku do wyznaczenia
+    double *ab; // zwracane przez funkcje ekspansji
+    while (true) {
+        X.grad(); // gradient
+        d = -X.g; //solution.g - gradient, .H - hesjan
+        // czy stalo/zmienno-krokowa
+        if (h0 < 0) {
+            // met zmiennokrokowa
+            P[0] = X.x;
+            P[1] = d;
+            ab = expansion(0, 1, 1.2, Nmax, ud, P);
+            h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);
+            X1.x = X.x + h.x * d;
+        } else // stalokrokowa
+            X1.x = X.x + h0 * d;
+#if LAB_NO == 5 && LAB_PART == 2
+        ud->add_row(trans(X1.x));
+#endif
+        if (norm(X.x - X1.x) < epsilon || solution::f_calls > Nmax ||
+            solution::g_calls > Nmax) {
+            X1.fit_fun(ud, ad);
+            return X1;
+        }
+        X = X1;
+    }
+}
 
 solution
 CG(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), matrix x0, double h0,
@@ -440,6 +474,41 @@ CG(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix, matrix), mat
     }
     catch (string ex_info) {
         throw ("solution CG(...):\n" + ex_info);
+    }
+}
+solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
+            matrix *ad) {
+    int n = get_len(x0);
+    solution X, X1;
+    X.x = x0;
+    matrix d(n, 1), *P = new matrix[2];
+    solution h;
+    double *ab, beta;
+    X.grad();
+    //d0 jest rowne gradientowi
+    d = -X.g;
+    while (true) {
+        if (h0 < 0) {
+            P[0] = X.x;
+            P[1] = d;
+            ab = expansion(0, 1, 1.2, Nmax, ud, P);
+            h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);
+            X1.x = X.x + h.x * d;
+        } else
+            X1.x = X.x + h0 * d;
+#if LAB_NO == 5 && LAB_PART == 2
+        ud->add_row(trans(X1.x));
+#endif
+        if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax ||
+            solution::g_calls > Nmax) {
+            X1.fit_fun(ud);
+            return X1;
+        }
+        X1.grad();
+        // betda do okreslania kolejnych wartosci kierunku
+        beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
+        d = -X1.g + beta * d;
+        X = X1;
     }
 }
 
@@ -456,6 +525,41 @@ solution Newton(matrix(*ff)(matrix, matrix, matrix), matrix(*gf)(matrix, matrix,
         throw ("solution Newton(...):\n" + ex_info);
     }
 }
+solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud,
+            matrix *ad) {
+    int n = get_len(x0);
+    solution X, X1;
+    X.x = x0;
+    matrix d(n, 1), *P = new matrix[2];
+    solution h;
+    double *ab, beta;
+    X.grad();
+    //d0 jest rowne gradientowi
+    d = -X.g;
+    while (true) {
+        if (h0 < 0) {
+            P[0] = X.x;
+            P[1] = d;
+            ab = expansion(0, 1, 1.2, Nmax, ud, P);
+            h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);
+            X1.x = X.x + h.x * d;
+        } else
+            X1.x = X.x + h0 * d;
+#if LAB_NO == 5 && LAB_PART == 2
+        ud->add_row(trans(X1.x));
+#endif
+        if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax ||
+            solution::g_calls > Nmax) {
+            X1.fit_fun(ud);
+            return X1;
+        }
+        X1.grad();
+        // betda do okreslania kolejnych wartosci kierunku
+        beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
+        d = -X1.g + beta * d;
+        X = X1;
+    }
+}
 
 solution
 golden(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, int Nmax, matrix ud1,
@@ -470,6 +574,37 @@ golden(matrix(*ff)(matrix, matrix, matrix), double a, double b, double epsilon, 
         throw ("solution golden(...):\n" + ex_info);
     }
 }
+solution golden(double a, double b, double epsilon, int Nmax, matrix *ud,
+               matrix *ad) {
+    double alpha = (sqrt(5) - 1) / 2;
+    solution A, B, C, D;
+    A.x = a;
+    B.x = b;
+    C.x = B.x - alpha * (B.x - A.x);
+    C.fit_fun(ud, ad);
+    D.x = A.x + alpha * (B.x - A.x);
+    D.fit_fun(ud, ad);
+    while (true) {
+        if (C.y < D.y) {
+            B = D;
+            D = C;
+            C.x = B.x - alpha * (B.x - A.x);
+            C.fit_fun(ud, ad);
+        } else {
+            A = C;
+            C = D;
+            D.x = A.x + alpha * (B.x - A.x);
+            D.fit_fun(ud, ad);
+        }
+        if (B.x - A.x < epsilon || solution::f_calls > Nmax) {
+            A.x = (A.x + B.x) / 2;
+            A.fit_fun(ud, ad);
+            return A;
+        }
+    }
+}
+
+// #####################################################################################################################
 
 solution
 Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax, matrix ud1, matrix ud2) {
