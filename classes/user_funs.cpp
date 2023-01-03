@@ -80,12 +80,12 @@ matrix df2(double t, matrix Y, matrix ud1, matrix ud2) {
 
 
 matrix df3(double t, matrix Y, matrix ud1, matrix ud2) {
-    double c=0.47, r=0.12, m=0.6, r0=1.2, g=9.81;
-    double S = 3.14 * r * r,w=ud2(0);
+    double c = 0.47, r = 0.12, m = 0.6, r0 = 1.2, g = 9.81;
+    double S = 3.14 * r * r, w = 24.9;
     double Dx = 0.5 * c * r0 * S * Y(1) * abs(Y(1));
-    double Dy =0.5 * c * r0 * S * Y(3) * abs(Y(3));
-    double FMx = r0 * Y(3) *w*  3.14 * pow(r, 3);
-    double FMy =r0 * Y(1) *w* 3.14 * pow(r, 3);
+    double Dy = 0.5 * c * r0 * S * Y(3) * abs(Y(3));
+    double FMx = r0 * Y(3) * w * 3.14 * pow(r, 3);
+    double FMy = r0 * Y(1) * w * 3.14 * pow(r, 3);
 
     matrix dY(4, 1);
 
@@ -134,7 +134,7 @@ matrix Fr3(matrix X, matrix ud1, matrix ud2) {
         if (abs(X(1)) - 25 > 0)
             y = y + ud2 * pow(abs(X(1)) - 25, 2);
         if (abs(Y[1](i50, 0) - 5) - 1 > 0)
-            y = y  + pow(abs(Y[1](i50, 0) - 5) - 1, 2);
+            y = y + pow(abs(Y[1](i50, 0) - 5) - 1, 2);
     }
 
 
@@ -144,8 +144,26 @@ matrix Fr3(matrix X, matrix ud1, matrix ud2) {
 //
 
 //matrix F4T(matrix X, matrix ud1, matrix ud2) {
+//    matrix y;
+//    if (norm(ud2(0, 0)))
+//        y = pow(X(0) + 2 * X * (1));
+//    else
+//        y = F4T(ud2[0] + X * ud2[1], ud1);
+//    return y;
 //
-//    if(norm(ud2(0,0)))
-//        y=pow()
 //}
+
+matrix gf(matrix X,matrix ud1,matrix ud2){
+    matrix g(2,1);
+    g(0)=10*X(0)+8*X(1)-34;
+    g(1)=8*X(0)+10*X(1)-38;
+    return g;
+}matrix Hf(matrix X,matrix ud1,matrix ud2){
+    matrix h(2,2);
+    h(0,0)=10;
+    h(1,0)=8;
+    h(0,1)=8;
+    h(1,1)=10;
+    return h;
+}
 
