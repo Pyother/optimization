@@ -26,7 +26,9 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
+
 matrix func_lab_4(matrix x, matrix ud1, matrix ud2);
+
 matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2);
 
 
@@ -173,8 +175,8 @@ void lab2() {
     int Nmax = 1000;
     matrix x0(2, new double[2]{0, 0});
     matrix s_rosen(2, 1, s);
-//    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
-//    solution::clear_calls();
+    cout << HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2) << endl;
+    solution::clear_calls();
 //    cout << RosenFileTab1(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2) << endl;
 
 //    printf("TABELA 1");
@@ -205,15 +207,16 @@ void lab2() {
 //    }
 //    HooksJeevesFileTab1.close();
 //    RosenFileTab1.close();
-printf("\n\n\n");
-solution rosenSol=Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
+
+
+    printf("\n\n\n");
+    solution rosenSol=Rosen(func_lab_2, x0, s_rosen, alphaRosen, beta, epsilon, Nmax, ud1, ud2);
     cout << rosenSol;
-solution::clear_calls();
-solution hjSol=HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
+    solution::clear_calls();
+    solution hjSol=HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
     cout << hjSol;
 
 
-//
     matrix Y0(2, 1), Y_ref(2, new double[2]{ 3.14,0 });
     matrix* Y = solve_ode(df2, 0, 0.1, 100, Y0, Y_ref, rosenSol.x);
     ofstream HJFileTabSim;
@@ -223,10 +226,80 @@ solution hjSol=HJ(func_lab_2, x0, s, alphaHJ, epsilon, Nmax, ud1, ud2);
 }
 
 void lab3() {
-solution simp;
-matrix x=matrix(2,new double[2]{-3,2}),ud1,ud2;
-double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
-simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
+    solution simp;
+    matrix x=matrix(2,new double[2]{-3,2}),ud1,ud2;
+    double s=3,aplha=1.0,beta=0.5,gamma=0.5,delta=0.5;
+
+    
+   // matrix ud1 = matrix(2,new double [2]{3.14,0}), ud2 = matrix(2,new double [2]{1,1});
+    matrix x0zew(2, new double[2]{1, 2});
+    ofstream S("lab_3.csv");
+    double c = 1, dc = 0.2, epsilon = 1e-3;
+    int Nmax = 10000;
+    matrix a = 5;
+    S << "X0" << ";" << " " << "X1" << std::endl << std::endl;
+
+    S << "Sym_MN dc 0.2 " << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+
+    // zewnetrzena dla dc > 1
+    // wewnetrzna dla dc < 1
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(fT3, x0zew, c, dc, epsilon, Nmax, ud1, ud2);
+        S << x0zew(0) << ", " << x0zew(1) << ", " << test.x(0) << ", " << test.x(1) << ", "
+                << test.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+
+    dc = 2;
+    S << "Sym_MN dc 2" << endl << endl;
+    S << "x1*" << ";" << " " << "x2*" << ";" << ";" << " " << "y*" << ";" <<
+      " " << "f_calls*" << ";" << " " << "r" << std::endl;
+    for (int i = 0; i < 100; i++)
+    {
+        solution test = pen(fT3, x0zew, c, dc, epsilon, Nmax, ud1, ud2);
+        S << test;
+        S << " " << sqrt(pow(test.x(0), 2) + pow(test.x(1), 2)) << endl;
+        solution::clear_calls();
+    }
+    S.close();
+
+    // #################################################################################################################
+    // #################################################################################################################
+    // #################################################################################################################
+    // #################################################################################################################
+    // #################################################################################################################
+    printf("TABELA 1");
+    ofstream zew_penalty, wew_penalty;
+    zew_penalty.open("zew_penalty.csv", ofstream::out);
+    wew_penalty.open("wew_penalty.csv", ofstream::out);
+
+    ud1 = 5;
+    double dcz = 2, dcw = 0.2;
+
+    zew_penalty << "x0zew(0)" << ", " << "x0zew(1)" << ", " << "test.x(0)" << ", " << "test.x(1)" << ", "
+            << "rz" << ", " << "test.y(0)" << ", " << "solution::f_calls" << endl;
+    wew_penalty << "x0zew(0)" << ", " << "x0zew(1)" << ", " << "test.x(0)" << ", " << "test.x(1)" << ", "
+            << "rw" << ", " << "test.y(0)" << ", " << "solution::f_calls" << endl;
+    matrix x0wew(2, new double[2]{1, 2});
+    for (int i = 0; i < 100; i++){
+        std::default_random_engine random1{std::random_device{}()};
+        std::uniform_real_distribution<double> v1(-1, 1);
+        double val1 = v1(random1);
+        std::default_random_engine random2{std::random_device{}()};
+        std::uniform_real_distribution<double> v2(-1, 1);
+        double val2 = v2(random2);
+        x0zew = matrix(2, new double [2] {val1, val2});
+        solution pen_func_z = pen(fT3, x0zew, c, dcz, epsilon, Nmax, ud1, ud2);
+//        zew_penalty << pen_func_z;'
+
+        double rz = sqrt((pow(pen_func_z.x(0) - 0, 2)) + (pow(pen_func_z.x(1) - 0), 2));
+
+        zew_penalty << x0zew(0) << ", " << x0zew(1) << ", " << pen_func_z.x(0) << ", " << pen_func_z.x(1) << ", "
+                << rz << ", "  << pen_func_z.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
 
     cout<<simp.x<<" " <<simp.y <<" " <<endl;
     
@@ -261,6 +334,29 @@ simp= sym_NM(func_lab_3,x,s,aplha,beta,gamma,delta,1e-4,10000);
     }
     S.close();
 
+
+//    matrix x0real(2, new double[2]{-5,0});
+//    solution rozwiazanie = pen(Fr3,x0real, 2, 2, 1.e-3, 5000,ud1,ud2);
+//    cout << rozwiazanie << endl;
+
+    ofstream symFile;
+    symFile.open("sym3File.csv", ofstream::out);
+    matrix Y0 = matrix(4, new double[4]{0, -3.45, 100, 0});
+    matrix* Y= solve_ode(df3,0 , 0.01, 7, Y0, matrix(24.9));
+    symFile<<Y[1];
+    symFile.close();
+
+
+        x0wew = matrix(2, new double [2] {val1, val2});
+        solution pen_func_w = pen(fT3, x0wew, c, dcw, epsilon, Nmax, ud1, ud2);
+//        wew_penalty << pen_func_z;
+        double rw = sqrt((pow(pen_func_z.x(0) - 0, 2)) + (pow(pen_func_z.x(1) - 0), 2));
+        wew_penalty << x0wew(0) << ", " << x0wew(1) << ", " << pen_func_w.x(0) << ", " << pen_func_w.x(1) << ", "
+                 << rw << ", " << pen_func_w.y(0) << ", " << solution::f_calls << endl;
+        solution::clear_calls();
+    }
+    zew_penalty.close();
+    wew_penalty.close();
 
 
 
@@ -312,7 +408,7 @@ matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
 }
 matrix func_lab_4(matrix x, matrix ud1, matrix ud2) {
     return pow(x(0)-+2*x(1)-7,2)+pow(2*x(0)+x(1)-5,2);
-}
+
 
 
 void simulation(matrix Da, matrix ud1, matrix ud2) {
