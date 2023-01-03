@@ -26,6 +26,9 @@ matrix func_lab_1(matrix x, matrix ud1, matrix ud2);
 matrix func_lab_2(matrix x, matrix ud1, matrix ud2);
 
 matrix func_lab_3(matrix x, matrix ud1, matrix ud2);
+
+matrix func_lab_4(matrix x, matrix ud1, matrix ud2);
+
 matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2);
 
 
@@ -49,6 +52,7 @@ int main() {
 //        lab1();
 //        lab2();
         lab3();
+       // lab4();
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -331,10 +335,6 @@ void lab3() {
     S.close();
 
 
-
-
-
-
 //    matrix x0real(2, new double[2]{-5,0});
 //    solution rozwiazanie = pen(Fr3,x0real, 2, 2, 1.e-3, 5000,ud1,ud2);
 //    cout << rozwiazanie << endl;
@@ -358,6 +358,20 @@ void lab3() {
     zew_penalty.close();
     wew_penalty.close();
 
+
+
+
+
+//    matrix x0real(2, new double[2]{-5,0});
+//    solution rozwiazanie = pen(Fr3,x0real, 2, 2, 1.e-3, 5000,ud1,ud2);
+//    cout << rozwiazanie << endl;
+
+    ofstream symFile;
+    symFile.open("sym3File.csv", ofstream::out);
+    matrix Y0 = matrix(4, new double[4]{0, -3.45, 100, 0});
+    matrix* Y= solve_ode(df3,0 , 0.01, 7, Y0, 24.9);
+    symFile<<Y[1];
+    symFile.close();
 }
 
 void lab4() {
@@ -392,6 +406,9 @@ matrix func_lab_3(matrix x, matrix ud1, matrix ud2) {
 matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
     return pow(x(0)-3,2)+pow(x(1)-3,2);
 }
+matrix func_lab_4(matrix x, matrix ud1, matrix ud2) {
+    return pow(x(0)-+2*x(1)-7,2)+pow(2*x(0)+x(1)-5,2);
+
 
 
 void simulation(matrix Da, matrix ud1, matrix ud2) {
