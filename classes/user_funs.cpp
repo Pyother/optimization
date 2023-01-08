@@ -157,7 +157,8 @@ matrix gf(matrix X,matrix ud1,matrix ud2){
     g(0)=10*X(0)+8*X(1)-34;
     g(1)=8*X(0)+10*X(1)-38;
     return g;
-}matrix Hf(matrix X,matrix ud1,matrix ud2){
+}
+matrix Hf(matrix X,matrix ud1,matrix ud2){
     matrix h(2,2);
     h(0,0)=10;
     h(1,0)=8;
@@ -166,11 +167,52 @@ matrix gf(matrix X,matrix ud1,matrix ud2){
     return h;
 }
 
+matrix FR4(matrix teta,matrix ud1, matrix)
+
 
 //matrix F4T(matrix X, matrix ud1, matrix ud2) {
 //
 //    if(norm(ud2(0,0)))
 //        y=pow()
 //}
+matrix fR4(matrix teta, matrix ud1, matrix ud2){
+    matrix y;
+    int m = 100;
+    int n = 3;//get_len(x);
+    static matrix X(n, m);
+    static matrix Y(1, m);
 
+    //czytamy pliki XData.txt>>X
+
+    double h;
+    y = 0;
+    for (int i = 0; i < m; i++){
+        h = m2d(trans(teta) * X(i));
+        h = 1.0 / (1/0 + exp(-h));
+        y = y - Y(0, i) * log(h) - (1 - Y(0, i) * log(1-h));
+    }
+    y = y / m;
+    return y;
+}
+
+matrix gfR4(matrix teta, matrix ud1, matrix ud2){
+    int m = 100;
+    int n = get_len(teta);
+    static matrix g(n, 1);
+
+    matrix X(100),Y;
+
+
+
+    double h;
+    for (int j = 0; j < n; j++){
+        for (int i = 0; i < m; i++){
+            h  = m2d(trans(teta) * X[i]);
+            h = 1 / (1 +exp(-h));
+            g(j) = g(j) + X(j, i) * (h - Y(0, i));
+        }
+        g(j) = g(j) / m;
+    }
+    return g;
+}
 

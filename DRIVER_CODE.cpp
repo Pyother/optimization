@@ -51,8 +51,8 @@ int main() {
     try {
 //        lab1();
 //        lab2();
-        lab3();
-       // lab4();
+        //lab3();
+        lab4();
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -376,6 +376,14 @@ void lab3() {
 
 void lab4() {
 
+    matrix H0= matrix(3,new double[3]{0.05,0.12,-0.1});
+    for(int i=0; i<get_len(H0);i++){
+        double h0 =H0(i),epsilon=1e-5;
+        int Nmax =10000;
+        matrix x0=20* rand_mat(2,1)-10;
+        solution opt_SD = SD(,gf,x0,h0,epsilon,Nmax);
+        cout<<opt_SD.x(0)<<","<<opt_SD.x(1)<<endl<<opt_SD.y(0)<<endl<<opt_SD.g_calls<<endl;
+    }
 }
 
 void lab5() {
@@ -407,37 +415,7 @@ matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
     return pow(x(0)-3,2)+pow(x(1)-3,2);
 }
 matrix func_lab_4(matrix x, matrix ud1, matrix ud2) {
-    return pow(x(0)-+2*x(1)-7,2)+pow(2*x(0)+x(1)-5,2);
-
-
-
-void simulation(matrix Da, matrix ud1, matrix ud2) {
-//cout<<ud2(0);
-    solution fibSol, lagSol;
-
-    double epsilon = 1e-5;
-    double gamma = 1e-200;
-//    matrix Y0 = matrix(3, new double[3]{5, 1, 10});
-//    matrix Y = problem(0, Y0, ud1, Da);
-//    Y0(0) += Y(0);
-//    Y0(1) += Y(1);
-//    Y0(2) += Y(2);
-//    matrix dY0;
-//    for (int t = 0; t < 30; t++) {
-//        dY0 = problem(t, Y, ud1, Da);
-//        Y0(0) += dY0(0);
-//        Y0(1) += dY0(1);
-//        Y0(2) += dY0(2);
-//        cout << "A:" << Y0(0) << ",B: " << Y0(1) << ", temp:" << Y0(2) << endl;
-//    }
-    ud1 = matrix(3, new double[3]{5, 1, 10});
-    fibSol = fib(Fr, Da(0), Da(0), epsilon);
-    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-    solution::clear_calls();
-    fibSol = lag(Fr, Da(0), Da(0), epsilon, gamma, 1000, ud1, ud1);
-    cout << fibSol.x << " " << fibSol.y << " " << solution::f_calls << endl;
-
-
+    return pow(x(0) - +2 * x(1) - 7, 2) + pow(2 * x(0) + x(1) - 5, 2);
 
 }
 
