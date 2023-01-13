@@ -216,3 +216,29 @@ matrix gfR4(matrix teta, matrix ud1, matrix ud2){
     return g;
 }
 
+matrix df6(){
+    m1, m2, k1, k2, F;
+    double b1 = ud2(0), b2 = ud2(1);
+    matrix dY(4, 1);
+    dY(0) = Y(1);
+    dY(1) = (-b1 * Y(1) - b2 * (Y(1) - Y(3)) - k1 * Y(0) - k2 *(Y(0) - Y(2))) / m1;
+    dY(2) = Y(3);
+    dY(3) = (F + b2 * (Y1(1) - Y(3)) + k2 * (Y(0) - Y(2))) / m2;
+    return dY;
+}
+
+matrix fR6(){
+   matrix y;
+   int N  = 1001;
+//   matrix X(N, 2); // <<< wczytaæ dane
+
+   matrix Y0(4, new double[4]{0, 0, 0, 0});
+   matrix *Y = solve_ode(df6, 0, 0.1, 100, YO, ud1, x[0]);
+   y = 0;
+   for (int i = 0; i < N; i++){
+       y = y + abs(X(i, 0) - Y[1](i, 0)) +  abs(X(i, 1) - Y[1](i, 2));
+   }
+   y = y / (2.0 * N);
+   return y;
+}
+
