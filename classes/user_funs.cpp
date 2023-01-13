@@ -167,7 +167,7 @@ matrix Hf(matrix X,matrix ud1,matrix ud2){
     return h;
 }
 
-matrix FR4(matrix teta,matrix ud1, matrix)
+//matrix FR4(matrix teta,matrix ud1, matrix)
 
 
 //matrix F4T(matrix X, matrix ud1, matrix ud2) {
