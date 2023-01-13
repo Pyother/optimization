@@ -616,7 +616,7 @@ solution
 Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
-        //Tu wpisz kod funkcji
+
 
         return Xopt;
     }
@@ -630,7 +630,7 @@ EA(matrix(*ff)(matrix, matrix, matrix), int N, matrix limits, int mi, int lambda
    int Nmax, matrix ud1, matrix ud2) {
     try {
         solution Xopt;
-        //Tu wpisz kod funkcji
+
 
         return Xopt;
     }
