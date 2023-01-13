@@ -719,6 +719,7 @@ EA(matrix(*ff)(matrix, matrix, matrix), int N, matrix limits, int mi, int lambda
         }
         return Xopt;
     }
+
     catch (string ex_info) {
         throw ("solution EA(...):\n" + ex_info);
     }
