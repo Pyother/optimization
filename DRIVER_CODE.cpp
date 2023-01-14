@@ -402,6 +402,7 @@ void lab4() {
     }
     file.close();
 
+
 }
 
 void lab5() {
