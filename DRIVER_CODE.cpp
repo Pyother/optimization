@@ -377,13 +377,31 @@ void lab3() {
 void lab4() {
 
     matrix H0= matrix(3,new double[3]{0.05,0.12,-0.1});
+
+    ofstream file;
+    file.open("output.csv", ofstream::out);
     for(int i=0; i<get_len(H0);i++){
         double h0 =H0(i),epsilon=1e-5;
         int Nmax =10000;
         matrix x0=20* rand_mat(2,1)-10;
-        solution opt_SD = SD(,gf,x0,h0,epsilon,Nmax);
+
+        // Funkcja najwyższego spadku:
+        solution::clear_calls();
+        solution opt_SD = SD(ff,gf,x0, h0,epsilon);
         cout<<opt_SD.x(0)<<","<<opt_SD.x(1)<<endl<<opt_SD.y(0)<<endl<<opt_SD.g_calls<<endl;
+
+        // Funkcja gradientów sprzężonych:
+        solution::clear_calls();
+        solution opt_CG = CG(ff, gf, x0, h0, epsilon, Nmax);
+        cout<<opt_CG.x(0)<<","<<opt_CG.x(1)<<endl<<opt_CG.y(0)<<endl<<opt_CG.g_calls<<endl;
+
+        // Funkcja Newtona:
+        solution::clear_calls();
+        solution opt_newton = Newton(ff, gf, Hf, x0, h0, epsilon);
+        cout<<opt_newton.x(0)<<","<<opt_newton.x(1)<<endl<<opt_newton.y(0)<<endl<<opt_newton.g_calls<<endl;
     }
+    file.close();
+
 }
 
 void lab5() {
