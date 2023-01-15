@@ -401,8 +401,6 @@ void lab4() {
         cout<<opt_newton.x(0)<<","<<opt_newton.x(1)<<endl<<opt_newton.y(0)<<endl<<opt_newton.g_calls<<endl;
     }
     file.close();
-
-
 }
 
 void lab5() {
