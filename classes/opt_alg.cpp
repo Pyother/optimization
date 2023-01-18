@@ -624,7 +624,7 @@ Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax,
         double *ab{};
         while(true){
             P = X;
-            for (int i = 0; i < n){
+            for (int i = 0; i < n; ++i){
                 A.set_col(P.x, 0);
                 A.set_col(D[i], 1);
                 ab = expansion(ff, 0, 1, 1.2, Nmax, ud1, A);
@@ -637,7 +637,6 @@ Powell(matrix(*ff)(matrix, matrix, matrix), matrix x0, double epsilon, int Nmax,
                 Xopt.flag = 0;
                 break;
             }
-//            if(std::max(solution::f_calls, solution::g_calls) > Nmax){
             if(solution::f_calls > Nmax){
                 Xopt = P;
                 Xopt.fit_fun(ff, ud1, ud2);
