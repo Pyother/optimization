@@ -666,29 +666,34 @@ EA(matrix(*ff)(matrix, matrix, matrix), int N, matrix limits, int mi, int lambda
         solution *P = new solution[mi + lambda];
         solution *Pm = new solution[mi];
 
+        double tau = pow(2 * N, -0.5), tau1 = pow(2 * pow(N, 0.5), -0.5);
+        int j_min;
         for(int i = 0; i < mi; i++){
             P[i].x = matrix(N, 2);
             for(int j = 0; j < N; j++){
                 P[i].x(j, 0) = (limits(j, 1) - limits(j, 0)) * m2d(rand_mat(1, 1)) + limits(j, 0);
                 P[i].x(j, 1) = sigma0(j);
             }
-            if(P[i].fit_fun(ud1, ud2) < epsilon){
+            if(P[i].fit_fun(ff, ud1, ud2) < epsilon){
                 Xopt = P[i];
+                Xopt.flag = 0;
+                delete[]P;
+                delete[]Pm;
                 return Xopt;
             }
         }
 
-        matrix IFF(mi, 1), t(N, 2);
+        matrix IFF(mi, 1), temp(N, 2);
         double r, S, s_IFF;
 
         while (true) {
             s_IFF = 0;
             for (int i = 0; i < mi; ++i) {
-                IFF(i) = 1 / P[i].y();
+                IFF(i) = 1 / m2d(P[i].y);
                 s_IFF += IFF(i);
             }
             for (int i = 0; i < lambda; ++i) {
-                r = s_IFF * rand_mat(1, 1)();
+                r = s_IFF * m2d(rand_mat());
                 S = 0;
                 for (int j = 0; j < mi; ++j) {
                     S += IFF(j);
@@ -702,20 +707,44 @@ EA(matrix(*ff)(matrix, matrix, matrix), int N, matrix limits, int mi, int lambda
             for (int i = 0; i < lambda; ++i) {
                 r = m2d(rand_mat(1, 1));
                 for (int j = 0; j < N; ++j) {
-                    P[mi + i].x(j, 1) *= exp(alfa * r + beta * m2d(rand_mat(1, 1));
+                    P[mi + i].x(j, 1) *= exp(tau * r + tau * m2d(rand_mat(1, 1)));
                     P[mi + i].x(j, 0) += P[mi + i].x(j, 1) * m2d(rand_mat(1, 1));
                 }
             }
             for (int i = 0; i < lambda; i += 2) {
-                r = m2d(rand_mat(1, 1));
-                t = P[mi + i].x;
-                P[mi + i].x = r * P[mi + i].x + (1 - r) * P[mi + i + 1].x;
-                P[mi + i + 1].x = r * P[mi + i + 1].x + (1 - r) * t;
+                if (P[mi + i].fit_fun(ff, ud1, ud2) < epsilon)
+                {
+                    Xopt = P[mi + i];
+                    Xopt.flag = 0;
+                    delete[]P;
+                    delete[]Pm;
+                    return Xopt;
+                }
             }
-            if (solution::f_calls > Nmax) {
-                return P[0];
+
+            for (int i = 0; i < mi; ++i)
+            {
+                j_min = 0;
+                for (int j = 1; j < mi + lambda; ++j) {
+                    if (P[j_min].y > P[j].y) {
+                        j_min = j;
+                    }
+                }
+                Pm[i] = P[j_min];
+                P[j_min].y = 1e10;
+            }
+            for (int i = 0; i < mi; ++i) {
+                P[i] = Pm[i];
+            }
+            if (solution::f_calls > Nmax)
+            {
+                Xopt = P[0];
+                Xopt.flag = 1;
+                break;
             }
         }
+        delete[]P;
+        delete[]Pm;
         return Xopt;
     }
 

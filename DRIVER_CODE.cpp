@@ -52,7 +52,9 @@ int main() {
 //        lab1();
 //        lab2();
         //lab3();
-        lab4();
+//        lab4();
+//        lab5();
+//    lab6();
     }
     catch (string EX_INFO) {
         cerr << "ERROR:\n";
@@ -387,28 +389,30 @@ void lab4() {
 
         // Funkcja najwyższego spadku:
         solution::clear_calls();
-        solution opt_SD = SD(ff,gf,x0, h0,epsilon);
+        solution opt_SD = SD(ff,gf,x0, h0,epsilon); // error with ff, gf
         cout<<opt_SD.x(0)<<","<<opt_SD.x(1)<<endl<<opt_SD.y(0)<<endl<<opt_SD.g_calls<<endl;
 
         // Funkcja gradientów sprzężonych:
         solution::clear_calls();
-        solution opt_CG = CG(ff, gf, x0, h0, epsilon, Nmax);
+        solution opt_CG = CG(ff, gf, x0, h0, epsilon, Nmax); // error with ff, gf
         cout<<opt_CG.x(0)<<","<<opt_CG.x(1)<<endl<<opt_CG.y(0)<<endl<<opt_CG.g_calls<<endl;
 
         // Funkcja Newtona:
         solution::clear_calls();
-        solution opt_newton = Newton(ff, gf, Hf, x0, h0, epsilon);
+        solution opt_newton = Newton(ff, gf, Hf, x0, h0, epsilon); // error with ff, gf
         cout<<opt_newton.x(0)<<","<<opt_newton.x(1)<<endl<<opt_newton.y(0)<<endl<<opt_newton.g_calls<<endl;
     }
     file.close();
 }
 
 void lab5() {
-
+    // Code Not needed
+    // Python code
 }
 
 void lab6() {
-
+    // Code Not needed
+    // Python code
 }
 
 // ##########################################
@@ -434,6 +438,17 @@ matrix func_lab_3_test(matrix x, matrix ud1, matrix ud2) {
 matrix func_lab_4(matrix x, matrix ud1, matrix ud2) {
     return pow(x(0) - +2 * x(1) - 7, 2) + pow(2 * x(0) + x(1) - 5, 2);
 
+}
+matrix func_lab_5_1(matrix x, matrix ud1, matrix ud2) {
+    int a = 1;
+    return (a * (pow(x(0) - 2, 2) + pow(x(1) - 2, 2)));
+}
+matrix func_lab_5_2(matrix x, matrix ud1, matrix ud2) {
+    int a = 1;
+    return (1/a * (pow(x(0) - 2, 2) + pow(x(1) - 2, 2)));
+}
+matrix func_lab_6(matrix x, matrix ud1, matrix ud2) {
+    return (pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * M_PI * x(0)) -  cos(2.5 * M_PI * x(1) + 2));
 }
 
 // ##########################################

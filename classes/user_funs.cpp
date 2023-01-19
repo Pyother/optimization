@@ -216,29 +216,47 @@ matrix gfR4(matrix teta, matrix ud1, matrix ud2){
     return g;
 }
 
-matrix df6(){
-    m1, m2, k1, k2, F;
+matrix df6(double t, matrix Y, matrix ud1, matrix ud2) {
+    double m1 = 5, m2 = 5, k1 = 1, k2 = 1, F = 1;
     double b1 = ud2(0), b2 = ud2(1);
     matrix dY(4, 1);
     dY(0) = Y(1);
-    dY(1) = (-b1 * Y(1) - b2 * (Y(1) - Y(3)) - k1 * Y(0) - k2 *(Y(0) - Y(2))) / m1;
+    dY(1) = (-b1 * Y(1) - b2 * (Y(1) - Y(3)) - k1 * Y(0) - k2 * (Y(0) - Y(2))) / m1;
     dY(2) = Y(3);
-    dY(3) = (F + b2 * (Y1(1) - Y(3)) + k2 * (Y(0) - Y(2))) / m2;
-    return dY;
+    dY(3) = (F + b2 * (Y(1) - Y(3)) + k2 * (Y(0) - Y(2))) / m2;
 }
 
-matrix fR6(){
-   matrix y;
-   int N  = 1001;
-//   matrix X(N, 2); // <<< wczytaæ dane
 
-   matrix Y0(4, new double[4]{0, 0, 0, 0});
-   matrix *Y = solve_ode(df6, 0, 0.1, 100, YO, ud1, x[0]);
-   y = 0;
-   for (int i = 0; i < N; i++){
-       y = y + abs(X(i, 0) - Y[1](i, 0)) +  abs(X(i, 1) - Y[1](i, 2));
-   }
-   y = y / (2.0 * N);
-   return y;
+matrix ff6R(matrix x, matrix ud1, matrix ud2) {
+    matrix y;
+    int N = 1001;
+    static matrix X(N, 2);
+    static bool read = true;
+    if (read) {
+        ifstream S("../polozenia.txt"); // Deleted
+        S >> X;
+        S.close();
+        read = false;
+    }
+    matrix Y0(4, new double[4]{0, 0, 0, 0});
+    matrix *Y = solve_ode(df6, 0, 0.1, 100, Y0, ud1, x[0]);
+    y = 0;
+    for (int i = 0; i < N; ++i) {
+        std::cout << i << " " << Y[1](i, 0) << " " << Y[1](i, 2) << std::endl;
+        y = y + abs(X(i, 0) - Y[1](i, 0)) + abs(X(i, 1) - Y[1](i, 2));
+    }
+    y = y / (2.0 * N);
+}
+
+
+
+
+// Deleted lab5
+
+
+matrix ff6T(matrix x, matrix ud1, matrix ud2){
+    matrix y;
+    y = pow(x(0) + 2*x(1)-7,2) + pow(2 * x(0) + x(1) - 5,2);
+    return  y;
 }
 
